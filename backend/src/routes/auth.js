@@ -32,9 +32,11 @@ router.post('/login', async (req, res) => {
                 role: mockAdmin.role
             });
 
+            // Determine whether cookie should be marked secure. Prefer explicit env override.
+            const cookieSecure = (process.env.FORCE_SECURE_COOKIES === '1') ? true : (req.secure || req.headers['x-forwarded-proto'] === 'https' || process.env.NODE_ENV === 'production');
             res.cookie('adminToken', token, {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
+                secure: cookieSecure,
                 sameSite: 'strict',
                 maxAge: 24 * 60 * 60 * 1000 // 24 heures
             });
@@ -79,9 +81,10 @@ router.post('/login', async (req, res) => {
         // Supprimer le mot de passe de la réponse
         const { mot_de_passe, ...adminData } = admin[0];
 
+        const cookieSecure = (process.env.FORCE_SECURE_COOKIES === '1') ? true : (req.secure || req.headers['x-forwarded-proto'] === 'https' || process.env.NODE_ENV === 'production');
         res.cookie('adminToken', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: cookieSecure,
             sameSite: 'strict',
             maxAge: 24 * 60 * 60 * 1000 // 24 heures
         });
@@ -166,9 +169,10 @@ router.post('/refresh', async (req, res) => {
         });
 
         // Update the cookie
+        const cookieSecure2 = (process.env.FORCE_SECURE_COOKIES === '1') ? true : (req.secure || req.headers['x-forwarded-proto'] === 'https' || process.env.NODE_ENV === 'production');
         res.cookie('adminToken', newToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: cookieSecure2,
             sameSite: 'strict',
             maxAge: 24 * 60 * 60 * 1000 // 24 hours
         });

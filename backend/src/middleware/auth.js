@@ -5,12 +5,13 @@ const { executeQuery } = require('../../config/database');
 // Middleware d'authentification pour les administrateurs
 const authenticateAdmin = async (req, res, next) => {
     try {
-        // BYPASS MODE - SEULEMENT EN DÉVELOPPEMENT
-        if (process.env.BYPASS_AUTH === '1' && process.env.NODE_ENV === 'development') {
-            console.log('🚨 AUTH BYPASS MODE ACTIVE - DEVELOPMENT ONLY');
+        // BYPASS MODE (demo) - enabled when BYPASS_AUTH=1
+        // WARNING: enable only for local/staging demos. Do NOT enable in public production.
+        if (process.env.BYPASS_AUTH === '1') {
+            console.log('🚨 AUTH BYPASS MODE ACTIVE - demo bypass enabled');
             req.admin = {
                 id: 999,
-                nom: 'Super Admin (DEV)',
+                nom: 'Demo Admin (BYPASS)',
                 email: 'dev@admin.local',
                 role: 'super_admin'
             };
