@@ -59,7 +59,7 @@ const AdminSettings = () => {
   useEffect(() => {
     if (activeTab === 'employees') {
       fetchUsers();
-    } else if (activeTab === 'spa') {
+    } else if (activeTab === 'Salon') {
       fetchSpaSettings();
     }
   }, [activeTab]);
@@ -175,7 +175,7 @@ const AdminSettings = () => {
     e.preventDefault();
     try {
       await adminAPI.updateSalonParams(spaSettings);
-      alert('Paramètres du spa mis à jour avec succès !');
+      alert('Paramètres du Salon mis à jour avec succès !');
     } catch (error) {
       console.error('Erreur lors de la mise à jour:', error);
       alert('Erreur lors de la mise à jour');
@@ -222,7 +222,7 @@ const AdminSettings = () => {
 
   const tabs = [
     { id: 'employees', label: 'Employés', icon: FaBriefcase },
-    { id: 'spa', label: 'Spa', icon: FaStore },
+    { id: 'Salon', label: 'Salon', icon: FaStore },
     { id: 'account', label: 'Mon Compte', icon: FaUserShield },
   ];
 
@@ -242,7 +242,7 @@ const AdminSettings = () => {
               Paramètres
             </h1>
             <p className="text-muted mb-0">
-              Gérez les paramètres de votre spa et de votre équipe
+              Gérez les paramètres de votre Salon et de votre équipe
             </p>
           </div>
         </div>
@@ -382,19 +382,19 @@ const AdminSettings = () => {
           </div>
         )}
 
-        {activeTab === 'spa' && (
+        {activeTab === 'Salon' && (
           <div className="card border-0 shadow-sm">
             <div className="card-header bg-light border-0">
               <h5 className="mb-0 fw-bold">
                 <FaStore className="text-primary me-2" />
-                Paramètres du Spa
+                Paramètres du Salon
               </h5>
             </div>
             <div className="card-body">
               <form onSubmit={handleSpaSubmit}>
                 <div className="row">
                   <div className="col-md-6 mb-3">
-                    <label className="form-label">Nom du Spa</label>
+                    <label className="form-label">Nom du Salon</label>
                     <input
                       type="text"
                       className="form-control"
@@ -434,7 +434,7 @@ const AdminSettings = () => {
                     />
                   </div>
                   <div className="col-12 mb-3">
-                    <label className="form-label">Description du Spa</label>
+                    <label className="form-label">Description du Salon</label>
                     <textarea
                       className="form-control"
                       name="description"
