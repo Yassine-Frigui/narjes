@@ -1,0 +1,101 @@
+
+Informations d'identification actuellement stock‚es :
+
+    Cible : MicrosoftAccount:target=SSO_POP_User:user=yassinefrigui249@outlook.com
+    Type : G‚n‚rique 
+    Utilisateur : yassinefrigui249@outlook.com
+    Sauvegard‚es pour cette ouverture de session uniquement
+       Cible : MicrosoftAccount:target=SSO_POP_Device
+    Type : G‚n‚rique 
+    Utilisateur : 02jggivqkrmxrvpm
+    Sauvegard‚es pour cette ouverture de session uniquement
+       Cible : MicrosoftAccount:target=SSO_POP_User:user=youssef.frigui@outlook.fr
+    Type : G‚n‚rique 
+    Utilisateur : youssef.frigui@outlook.fr
+    Sauvegard‚es pour cette ouverture de session uniquement
+       Cible : LegacyGeneric:target=git:https://github.com
+    Type : G‚n‚rique 
+    Utilisateur : Yassine-Frigui
+    Persistance de l'ordinateur local
+    
+    Cible : LegacyGeneric:target=Microsoft_VS_LiveShare/(default)/microsoft
+    Type : G‚n‚rique 
+    Persistance de l'ordinateur local
+    
+    Cible : LegacyGeneric:target=azureAccountProviderCredentials|azureTokenCache_azure_publicCloud-iv
+    Type : G‚n‚rique 
+    Utilisateur : *
+    Persistance de l'ordinateur local
+    
+    Cible : LegacyGeneric:target=git:https://dev.azure.com/friguiyoussef
+    Type : G‚n‚rique 
+    Utilisateur : frigui.youssef@tek-up.de
+    Persistance de l'ordinateur local
+    
+    Cible : LegacyGeneric:target=Microsoft_OneDrive_Cookies_v2_Business1_https://tekupde-my.sharepoint.com/
+    Type : G‚n‚rique 
+    Persistance de l'ordinateur local
+    
+    Cible : LegacyGeneric:target=MicrosoftAccount:user=youssef.frigui@outlook.fr
+    Type : G‚n‚rique 
+    Utilisateur : youssef.frigui@outlook.fr
+    Persistance de l'ordinateur local
+    
+    Cible : LegacyGeneric:target=Microsoft_VS_LiveShare/(default)/frigui.youssef@tek-up.de
+    Type : G‚n‚rique 
+    Persistance de l'ordinateur local
+    
+    Cible : LegacyGeneric:target=azureAccountProviderCredentials|azureTokenCache_azure_publicCloud-key
+    Type : G‚n‚rique 
+    Utilisateur : *
+    Persistance de l'ordinateur local
+    
+    Cible : LegacyGeneric:target=Microsoft_VS_LiveShare/microsoft/frigui.youssef@tek-up.de
+    Type : G‚n‚rique 
+    Persistance de l'ordinateur local
+    
+    Cible : LegacyGeneric:target=GitHub for Visual Studio - https://github.com/
+    Type : G‚n‚rique 
+    Utilisateur : Personal Access Token
+    Persistance de l'ordinateur local
+    
+    Cible : WindowsLive:target=virtualapp/didlogical
+    Type : G‚n‚rique 
+    Utilisateur : 02jggivqkrmxrvpm
+    Persistance de l'ordinateur local
+    
+    Cible : LegacyGeneric:target=OneDrive Cached Credential
+    Type : G‚n‚rique 
+    Utilisateur : ace1067edde01ffc
+    Persistance de l'ordinateur local
+    
+    Cible : LegacyGeneric:target=MicrosoftAccount:user=yassinefrigui249@outlook.com
+    Type : G‚n‚rique 
+    Utilisateur : yassinefrigui249@outlook.com
+    Persistance de l'ordinateur local
+    
+    Cible : LegacyGeneric:target=Microsoft_VS_LiveShare/(default)/(default)
+    Type : G‚n‚rique 
+    Persistance de l'ordinateur local
+    
+    Cible : LegacyGeneric:target=Olk/PushNotificationsKey
+    Type : G‚n‚rique 
+    Utilisateur : Olk/PushNotificationsKey
+    Persistance de l'ordinateur local
+    
+    Cible : LegacyGeneric:target=Microsoft_VS_LiveShare/UserInfo/microsoft|frigui.youssef@tek-up.de
+    Type : G‚n‚rique 
+    Persistance de l'ordinateur local
+    
+    Cible : Domain:target=192.168.1.10
+    Type : Mot de passe du domaine
+    Utilisateur : Yassine Frigui
+    
+    Cible : LegacyGeneric:target=teamsIv/teams
+    Type : G‚n‚rique 
+    Utilisateur : teams
+    
+    Cible : LegacyGeneric:target=teamsKey/teams
+    Type : G‚n‚rique 
+    Utilisateur : teams
+    
