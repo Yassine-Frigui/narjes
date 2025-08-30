@@ -1,0 +1,318 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About", 
+    "services": "Services",
+    "booking": "Book",
+    "contact": "Contact",
+    "login": "Login",
+    "signup": "Sign Up",
+    "profile": "Profile",
+    "logout": "Logout",
+    "bookAppointment": "Book Appointment"
+  },
+  "common": {
+    "welcome": "Welcome",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "auth": {
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "subtitle": "Enter your email address and we'll send you a link to reset your password.",
+      "instruction": "Enter your email address and we'll send you a link to reset your password.",
+      "email": "Email address",
+      "emailAddress": "Email address",
+      "emailPlaceholder": "Enter your email address",
+      "sendInstructions": "Send instructions",
+      "sendLink": "Send link",
+      "sending": "Sending...",
+      "backToLogin": "← Back to login",
+      "success": "Instructions sent!",
+      "emailSent": "Email sent!",
+      "successMessage": "If this email address is associated with an account, you'll soon receive instructions to reset your password.",
+      "emailSentMessage": "If this email address is associated with an account, you'll soon receive instructions to reset your password.",
+      "checkSpam": "Also check your spam folder.",
+      "errors": {
+        "emailRequired": "Email address is required",
+        "emailInvalid": "Please enter a valid email address",
+        "invalidEmail": "Please enter a valid email address",
+        "general": "An error occurred. Please try again later.",
+        "serverError": "An error occurred. Please try again later."
+      }
+    },
+    "resetPassword": {
+      "title": "New Password",
+      "instruction": "Enter your new password below.",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "resetPassword": "Reset password",
+      "success": "Success!",
+      "successMessage": "Your password has been reset successfully.",
+      "redirecting": "Redirecting to login page...",
+      "errors": {
+        "missingToken": "Reset token missing",
+        "invalidToken": "The reset link is invalid or has expired. Please request a new link.",
+        "passwordRequired": "New password is required",
+        "passwordMinLength": "Password must be at least 6 characters long",
+        "passwordsMatch": "Passwords must match",
+        "serverError": "An error occurred. Please try again later."
+      }
+    },
+    "signup": {
+      "title": "Sign Up",
+      "subtitle": "Create your account to start your beauty journey",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email address",
+      "phone": "Phone (8 digits)",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "createAccount": "Create my account",
+      "creating": "Creating account...",
+      "alreadyHaveAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "backToHome": "← Back to home",
+      "success": "Account created successfully!",
+      "errors": {
+        "firstNameRequired": "First name is required",
+        "lastNameRequired": "Last name is required",
+        "emailRequired": "Email address is required",
+        "emailInvalid": "Please enter a valid email address",
+        "phoneRequired": "Phone number is required",
+        "phoneInvalid": "Phone number must contain exactly 8 digits",
+        "passwordRequired": "Password is required",
+        "passwordMinLength": "Password must be at least 6 characters long",
+        "passwordsMatch": "Passwords must match",
+        "serverError": "An error occurred. Please try again later."
+      }
+    },
+    "login": {
+      "title": "Login",
+      "email": "Email address",
+      "password": "Password",
+      "loginButton": "Sign in",
+      "forgotPassword": "Forgot password?",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create account",
+      "backToHome": "← Back to home",
+      "errors": {
+        "emailRequired": "Email address is required",
+        "emailInvalid": "Please enter a valid email address",
+        "passwordRequired": "Password is required",
+        "invalidCredentials": "Invalid credentials",
+        "serverError": "An error occurred. Please try again later."
+      }
+    },
+    "profile": {
+      "title": "My Profile",
+      "personalInfo": "Personal information",
+      "changePassword": "Change password",
+      "currentPassword": "Current password",
+      "newPassword": "New password",
+      "updateProfile": "Update profile",
+      "updatePassword": "Update password"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Welcome to Beauty Nails - Chez Waad",
+      "subtitle": "Experience premium nail care and beauty treatments in our luxurious salon. From classic manicures to artistic nail designs, we create beautiful nails that express your unique style.",
+      "bookNow": "Book now",
+      "discoverServices": "Our Services",
+      "sanctuary_badge": "Premium nail sanctuary"
+    },
+    "featuredServices": "Our Most Popular Services",
+    "featuredServicesDesc": "Discover why our clients love these nail treatments",
+    "viewAllServices": "View All Our Services",
+    "newServices": {
+      "title": "New Nail Trends",
+      "description": "Discover our latest nail art and treatment innovations",
+      "badge": "New",
+      "tryButton": "Try Now"
+    },
+    "gallery": {
+      "title": "Our Beauty Sanctuary",
+      "description": "Discover our elegant spaces dedicated to nail care and beauty"
+    },
+    "testimonials": {
+      "title": "What Our Clients Say",
+      "description": "Beautiful nails and happy clients are our pride"
+    },
+    "cta": {
+      "title": "Ready for beautiful nails?",
+      "description": "Book your personalized nail treatment now and let your nails shine",
+      "button": "Book My Appointment"
+    }
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Premium nail care and beauty treatments",
+    "allServices": "All Services",
+    "categories": "Categories",
+    "duration": "Duration",
+    "price": "Price",
+    "bookService": "Book this service",
+    "learnMore": "Learn more",
+    "includes": "Includes",
+    "minutes": "minutes",
+    "noServicesFound": "No services found",
+    "tryDifferentCategory": "Try selecting a different category",
+    "cta": {
+      "title": "Questions about our nail services?",
+      "description": "Our experienced nail artists are here to help you achieve beautiful nails"
+    }
+  },
+  "booking": {
+    "title": "Book an appointment",
+    "hero": {
+      "title": "Book your appointment",
+      "subtitle": "Choose your service and preferred time for a personalized nail care experience"
+    },
+    "form": {
+      "title": "Booking form",
+      "session": "Session",
+      "selectService": "Choose your service *",
+      "serviceDetails": "Details",
+      "services_count": "service",
+      "services_count_plural": "services",
+      "duration": "min",
+      "personalInfo": "Personal information",
+      "firstName": "First name *",
+      "lastName": "Last name *",
+      "email": "Email *",
+      "phone": "Phone *",
+      "phoneHelper": "(minimum required for auto-save)",
+      "placeholders": {
+        "firstName": "Your first name",
+        "lastName": "Your last name",
+        "email": "your@email.com",
+        "phone": "06 12 34 56 78"
+      },
+      "dateTime": {
+        "title": "Date and time",
+        "date": "Date *",
+        "time": "Time *",
+        "selectTime": "Select a time",
+        "noAvailableSlots": "No available slots for this date"
+      },
+      "notes": {
+        "label": "Special notes (optional)",
+        "placeholder": "Allergies, preferences, special requests..."
+      },
+      "summary": {
+        "title": "Summary",
+        "duration": "Duration",
+        "minutes": "minutes",
+        "appointment": "Appointment"
+      },
+      "submit": "Confirm booking",
+      "submitting": "Processing...",
+      "newBooking": "New Booking"
+    },
+    "success": {
+      "title": "Booking Confirmed!",
+      "message": "Thank you for your booking! We have sent you a confirmation email with all the details of your appointment.",
+      "important": "Important:",
+      "reminder": "You will receive a reminder 24h before your appointment. If you need to cancel, please let us know at least 4h in advance."
+    },
+    "selectService": "Select a service",
+    "selectDate": "Select a date",
+    "selectTime": "Select a time",
+    "personalInfo": "Personal information",
+    "confirmBooking": "Confirm booking"
+  },
+  "contact": {
+    "title": "Contact us",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "hours": "Opening hours",
+    "getInTouch": "Get in touch",
+    "sendMessage": "Send message"
+  },
+  "about": {
+    "hero": {
+      "title": "About Beauty Nails - Chez Waad",
+      "subtitle": "Your destination for premium nail care and artistic nail design"
+    },
+    "mission": {
+      "title": "Our Mission",
+      "description": "At Beauty Nails - Chez Waad, we create a luxurious space where every client can express their unique style through beautiful nail art and professional nail care."
+    },
+    "values": {
+      "feminine_wellness": {
+        "title": "Beauty Care",
+        "description": "We specialize in manicure, pedicure and beauty treatments to enhance your natural radiance and style."
+      },
+      "holistic_approach": {
+        "title": "Comprehensive Approach",
+        "description": "Our services combine traditional techniques and modern innovations for complete and personalized beauty treatments."
+      },
+      "excellence_discretion": {
+        "title": "Excellence & Elegance",
+        "description": "Superior quality service in a luxurious, relaxing and welcoming environment."
+      }
+    },
+    "story": {
+      "title": "Our Story",
+      "description": "Beauty Chez Waad was born from the passion to create a space dedicated exclusively to beauty and nail care, where traditional artistry meets modern innovation."
+    },
+    "team": {
+      "title": "Our Team",
+      "description": "Trained and passionate estheticians and nail artists, dedicated to your beauty and satisfaction."
+    }
+  },
+  "profile": {
+    "title": "My Profile",
+    "subtitle": "Manage your personal information",
+    "personalInfo": "Personal information",
+    "security": "Security",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "addressPlaceholder": "Your complete address",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm new password",
+    "changePassword": "Change password",
+    "passwordSecure": "Your password is secure. Click \"Change password\" to modify it.",
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "update": "Update",
+    "saving": "Saving...",
+    "updating": "Updating...",
+    "logout": "Logout",
+    "notProvided": "Not provided",
+    "emailVerified": "Email verified"
+  },
+  "footer": {
+    "quickLinks": "Quick links",
+    "contactInfo": "Contact information",
+    "followUs": "Follow us",
+    "bookAppointment": "Book appointment",
+    "allRightsReserved": "All rights reserved"
+  },
+  "errors": {
+    "pageNotFound": "Page not found",
+    "pageNotFoundDesc": "The page you are looking for does not exist.",
+    "networkError": "Network error",
+    "serverError": "Server error",
+    "validationError": "Validation error"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "name": "beauty-nails-chez-waad-backend",
+  "version": "1.0.0",
+  "main": "express.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "db:init": "node database/init.js",
+    "db:reset": "node database/init.js",
+    "db:test": "node scripts/test-database-connection.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "axios": "^1.8.4",
+    "backend": "file:",
+    "base-64": "^1.0.0",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.3",
+    "cookie-parser": "^1.4.7",
+    "cookieparser": "^0.1.0",
+    "cors": "^2.8.5",
+    "daemon": "^1.1.0",
+    "dotenv": "^16.4.7",
+    "exec": "^0.2.1",
+    "express": "^4.21.2",
+    "fluent-ffmpeg": "^2.1.3",
+    "googleapis": "^148.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.12.0",
+    "node-fetch": "^3.3.2",
+    "nodemailer": "^7.0.5",
+    "sib-api-v3-sdk": "^8.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  },
+  "description": ""
+}

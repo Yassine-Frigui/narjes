@@ -1,0 +1,318 @@
+{
+  "navigation": {
+    "home": "Accueil",
+    "about": "À Propos", 
+    "services": "Services",
+    "booking": "Réserver",
+    "contact": "Contact",
+    "login": "Connexion",
+    "signup": "Inscription",
+    "profile": "Profil",
+    "logout": "Déconnexion",
+    "bookAppointment": "Prendre RDV"
+  },
+  "common": {
+    "welcome": "Bienvenue",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "submit": "Soumettre",
+    "close": "Fermer",
+    "yes": "Oui",
+    "no": "Non"
+  },
+  "auth": {
+    "forgotPassword": {
+      "title": "Mot de passe oublié",
+      "subtitle": "Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+      "instruction": "Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+      "email": "Adresse e-mail",
+      "emailAddress": "Adresse e-mail",
+      "emailPlaceholder": "Entrez votre adresse e-mail",
+      "sendInstructions": "Envoyer les instructions",
+      "sendLink": "Envoyer le lien",
+      "sending": "Envoi...",
+      "backToLogin": "← Retour à la connexion",
+      "success": "Instructions envoyées !",
+      "emailSent": "E-mail envoyé !",
+      "successMessage": "Si cette adresse e-mail est associée à un compte, vous recevrez bientôt des instructions pour réinitialiser votre mot de passe.",
+      "emailSentMessage": "Si cette adresse e-mail est associée à un compte, vous recevrez bientôt des instructions pour réinitialiser votre mot de passe.",
+      "checkSpam": "Vérifiez également votre dossier spam.",
+      "errors": {
+        "emailRequired": "L'adresse e-mail est requise",
+        "emailInvalid": "Veuillez entrer une adresse e-mail valide",
+        "invalidEmail": "Veuillez entrer une adresse e-mail valide",
+        "general": "Une erreur est survenue. Veuillez réessayer plus tard.",
+        "serverError": "Une erreur est survenue. Veuillez réessayer plus tard."
+      }
+    },
+    "resetPassword": {
+      "title": "Nouveau mot de passe",
+      "instruction": "Entrez votre nouveau mot de passe ci-dessous.",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "resetPassword": "Réinitialiser le mot de passe",
+      "success": "Succès !",
+      "successMessage": "Votre mot de passe a été réinitialisé avec succès.",
+      "redirecting": "Redirection vers la page de connexion...",
+      "errors": {
+        "missingToken": "Token de réinitialisation manquant",
+        "invalidToken": "Le lien de réinitialisation n'est pas valide ou a expiré. Veuillez demander un nouveau lien.",
+        "passwordRequired": "Le nouveau mot de passe est requis",
+        "passwordMinLength": "Le mot de passe doit contenir au moins 6 caractères",
+        "passwordsMatch": "Les mots de passe doivent être identiques",
+        "serverError": "Une erreur est survenue. Veuillez réessayer plus tard."
+      }
+    },
+    "signup": {
+      "title": "Inscription",
+      "subtitle": "Créez votre compte pour commencer votre parcours beauté",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "Adresse e-mail",
+      "phone": "Téléphone (8 chiffres)",
+      "password": "Mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "createAccount": "Créer mon compte",
+      "creating": "Création du compte...",
+      "alreadyHaveAccount": "Déjà un compte ?",
+      "signIn": "Se connecter",
+      "backToHome": "← Retour à l'accueil",
+      "success": "Compte créé avec succès !",
+      "errors": {
+        "firstNameRequired": "Le prénom est requis",
+        "lastNameRequired": "Le nom est requis",
+        "emailRequired": "L'adresse e-mail est requise",
+        "emailInvalid": "Veuillez entrer une adresse e-mail valide",
+        "phoneRequired": "Le numéro de téléphone est requis",
+        "phoneInvalid": "Le numéro de téléphone doit contenir exactement 8 chiffres",
+        "passwordRequired": "Le mot de passe est requis",
+        "passwordMinLength": "Le mot de passe doit contenir au moins 6 caractères",
+        "passwordsMatch": "Les mots de passe doivent être identiques",
+        "serverError": "Une erreur est survenue. Veuillez réessayer plus tard."
+      }
+    },
+    "login": {
+      "title": "Connexion",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "loginButton": "Se connecter",
+      "forgotPassword": "Mot de passe oublié ?",
+      "noAccount": "Pas de compte ?",
+      "createAccount": "Créer un compte",
+      "backToHome": "← Retour à l'accueil",
+      "errors": {
+        "emailRequired": "L'adresse e-mail est requise",
+        "emailInvalid": "Veuillez entrer une adresse e-mail valide",
+        "passwordRequired": "Le mot de passe est requis",
+        "invalidCredentials": "Identifiants invalides",
+        "serverError": "Une erreur est survenue. Veuillez réessayer plus tard."
+      }
+    },
+    "profile": {
+      "title": "Mon Profil",
+      "personalInfo": "Informations personnelles",
+      "changePassword": "Changer le mot de passe",
+      "currentPassword": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "updateProfile": "Mettre à jour le profil",
+      "updatePassword": "Mettre à jour le mot de passe"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Bienvenue chez Beauty Nails - Chez Waad",
+      "subtitle": "Découvrez des services de manucure premium et des traitements de beauté dans notre salon luxueux. Des manucures classiques aux designs artistiques, nous créons de beaux ongles qui expriment votre style unique.",
+      "bookNow": "Réserver maintenant",
+      "discoverServices": "Nos Services",
+      "sanctuary_badge": "Sanctuaire premium des ongles"
+    },
+    "featuredServices": "Nos Services les Plus Populaires",
+    "featuredServicesDesc": "Découvrez pourquoi nos clients adorent ces services d'ongles",
+    "viewAllServices": "Voir Tous Nos Services",
+    "newServices": {
+      "title": "Nouvelles Tendances Ongles",
+      "description": "Découvrez nos dernières innovations en nail art et services",
+      "badge": "Nouveau",
+      "tryButton": "Essayer"
+    },
+    "gallery": {
+      "title": "Notre Sanctuaire Beauté",
+      "description": "Découvrez nos espaces élégants dédiés aux services des ongles et à la beauté"
+    },
+    "testimonials": {
+      "title": "Ce Que Disent Nos Clients",
+      "description": "De beaux ongles et des clients heureux font notre fierté"
+    },
+    "cta": {
+      "title": "Prête pour de beaux ongles ?",
+      "description": "Réservez dès maintenant votre soin personnalisé et laissez vos ongles briller",
+      "button": "Je Prends Rendez-Vous"
+    }
+  },
+  "services": {
+    "title": "Nos Services",
+    "subtitle": "Services de manucure premium et traitements de beauté",
+    "allServices": "Tous les services",
+    "categories": "Catégories",
+    "duration": "Durée",
+    "price": "Prix",
+    "bookService": "Réserver ce soin",
+    "learnMore": "En savoir plus",
+    "includes": "Inclus",
+    "minutes": "minutes",
+    "noServicesFound": "Aucun service trouvé",
+    "tryDifferentCategory": "Essayez de sélectionner une catégorie différente",
+    "cta": {
+      "title": "Des questions sur nos services d'ongles ?",
+      "description": "Nos nail artists expérimentées sont là pour vous aider à obtenir de beaux ongles"
+    }
+  },
+  "booking": {
+    "title": "Réserver un rendez-vous",
+    "hero": {
+      "title": "Réserver votre rendez-vous",
+      "subtitle": "Choisissez votre service et votre horaire préféré pour une expérience de services des ongles personnalisée"
+    },
+    "form": {
+      "title": "Formulaire de réservation",
+      "session": "Session",
+      "selectService": "Choisissez votre service *",
+      "serviceDetails": "Détails",
+      "services_count": "service",
+      "services_count_plural": "services",
+      "duration": "min",
+      "personalInfo": "Informations personnelles",
+      "firstName": "Prénom *",
+      "lastName": "Nom *",
+      "email": "Email *",
+      "phone": "Téléphone *",
+      "phoneHelper": "(minimum requis pour sauvegarde automatique)",
+      "placeholders": {
+        "firstName": "Votre prénom",
+        "lastName": "Votre nom",
+        "email": "votre@email.com",
+        "phone": "06 12 34 56 78"
+      },
+      "dateTime": {
+        "title": "Date et heure",
+        "date": "Date *",
+        "time": "Heure *",
+        "selectTime": "Choisir un horaire",
+        "noAvailableSlots": "Aucun horaire disponible pour cette date"
+      },
+      "notes": {
+        "label": "Notes spéciales (optionnel)",
+        "placeholder": "Allergies, préférences, demandes particulières..."
+      },
+      "summary": {
+        "title": "Récapitulatif",
+        "duration": "Durée",
+        "minutes": "minutes",
+        "appointment": "Rendez-vous"
+      },
+      "submit": "Confirmer la réservation",
+      "submitting": "Traitement en cours...",
+      "newBooking": "Nouvelle Réservation"
+    },
+    "success": {
+      "title": "Réservation Confirmée !",
+      "message": "Merci pour votre réservation ! Nous vous avons envoyé un email de confirmation avec tous les détails de votre rendez-vous.",
+      "important": "Important:",
+      "reminder": "Vous recevrez un rappel 24h avant votre rendez-vous. En cas d'empêchement, merci de nous prévenir au moins 4h à l'avance."
+    },
+    "selectService": "Choisir un soin",
+    "selectDate": "Choisir une date",
+    "selectTime": "Choisir un horaire",
+    "personalInfo": "Informations personnelles",
+    "confirmBooking": "Confirmer la réservation"
+  },
+  "contact": {
+    "title": "Contactez-nous",
+    "address": "Adresse",
+    "phone": "Téléphone",
+    "email": "E-mail",
+    "hours": "Horaires d'ouverture",
+    "getInTouch": "Entrer en contact",
+    "sendMessage": "Envoyer un message"
+  },
+  "about": {
+    "hero": {
+      "title": "À Propos de Beauty Nails - Chez Waad",
+      "subtitle": "Votre destination pour les services premium des ongles et le design artistique"
+    },
+    "mission": {
+      "title": "Notre Mission",
+      "description": "Chez Beauty Nails - Chez Waad, nous créons un espace luxueux où chaque cliente peut exprimer son style unique grâce à de beaux nail art et des services professionnels des ongles."
+    },
+    "values": {
+      "feminine_wellness": {
+        "title": "Services de Beauté",
+        "description": "Nous nous spécialisons dans les services de manucure, pédicure et traitements de beauté pour sublimer votre éclat naturel."
+      },
+      "holistic_approach": {
+        "title": "Approche Complète",
+        "description": "Nos services allient techniques traditionnelles et innovations modernes pour des services de beauté complets et personnalisés."
+      },
+      "excellence_discretion": {
+        "title": "Excellence & Élégance",
+        "description": "Un service de qualité supérieure dans un environnement luxueux, relaxant et accueillant."
+      }
+    },
+    "story": {
+      "title": "Notre Histoire",
+      "description": "Beauty Chez Waad est né de la passion de créer un espace dédié exclusivement à la beauté et aux services des ongles, où l'art traditionnel rencontre l'innovation moderne."
+    },
+    "team": {
+      "title": "Notre Équipe",
+      "description": "Des esthéticiennes et nail artists formées et passionnées, dédiées à votre beauté et à votre satisfaction."
+    }
+  },
+  "profile": {
+    "title": "Mon Profil",
+    "subtitle": "Gérez vos informations personnelles",
+    "personalInfo": "Informations personnelles",
+    "security": "Sécurité",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "email": "Email",
+    "phone": "Téléphone",
+    "address": "Adresse",
+    "addressPlaceholder": "Votre adresse complète",
+    "currentPassword": "Mot de passe actuel",
+    "newPassword": "Nouveau mot de passe",
+    "confirmPassword": "Confirmer le nouveau mot de passe",
+    "changePassword": "Changer le mot de passe",
+    "passwordSecure": "Votre mot de passe est sécurisé. Cliquez sur \"Changer le mot de passe\" pour le modifier.",
+    "edit": "Modifier",
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "update": "Modifier",
+    "saving": "Sauvegarde...",
+    "updating": "Modification...",
+    "logout": "Se déconnecter",
+    "notProvided": "Non renseigné",
+    "emailVerified": "Email vérifié"
+  },
+  "footer": {
+    "quickLinks": "Liens rapides",
+    "contactInfo": "Informations de contact",
+    "followUs": "Suivez-nous",
+    "bookAppointment": "Prendre RDV",
+    "allRightsReserved": "Tous droits réservés"
+  },
+  "errors": {
+    "pageNotFound": "Page non trouvée",
+    "pageNotFoundDesc": "La page que vous recherchez n'existe pas.",
+    "networkError": "Erreur de réseau",
+    "serverError": "Erreur du serveur",
+    "validationError": "Erreur de validation"
+  }
+}

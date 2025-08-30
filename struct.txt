@@ -1,0 +1,4 @@
+Source Code JotForm
+JotForm API Key
+Brevo E-mail
+netlify (optional)

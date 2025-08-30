@@ -1,0 +1,12 @@
+{
+  "name": "lecreateur-root",
+  "private": true,
+  "devDependencies": {
+    "bcryptjs": "^3.0.2",
+    "concurrently": "^8.0.0",
+    "mysql2": "^3.14.1"
+  },
+  "scripts": {
+    "dev": "concurrently \"cd frontend && npm run dev\" \"cd backend && nodemon src/app.js\""
+  }
+}
