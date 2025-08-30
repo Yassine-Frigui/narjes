@@ -55,22 +55,13 @@ const ServiceForm = ({
         inclus: '',
         contre_indications: '',
         conseils_apres_soin: ''
-      },
-      ar: {
-        nom: '',
-        description: '',
-        description_detaillee: '',
-        inclus: '',
-        contre_indications: '',
-        conseils_apres_soin: ''
       }
     }
   });
 
   const languages = [
     { code: 'fr', name: 'Français', flag: '🇫🇷' },
-    { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'ar', name: 'العربية', flag: '🇹🇳' }
+    { code: 'en', name: 'English', flag: '🇺🇸' }
   ];
 
   const serviceTypes = [
@@ -125,7 +116,7 @@ const ServiceForm = ({
         translations: serviceData.translations || {
           fr: { nom: '', description: '', description_detaillee: '', inclus: '', contre_indications: '', conseils_apres_soin: '' },
           en: { nom: '', description: '', description_detaillee: '', inclus: '', contre_indications: '', conseils_apres_soin: '' },
-          ar: { nom: '', description: '', description_detaillee: '', inclus: '', contre_indications: '', conseils_apres_soin: '' }
+          // Arabic removed
         }
       });
     } catch (error) {
@@ -170,9 +161,8 @@ const ServiceForm = ({
       ordre_affichage: 0,
       actif: true,
       translations: {
-        fr: { nom: '', description: '', description_detaillee: '', inclus: '', contre_indications: '', conseils_apres_soin: '' },
-        en: { nom: '', description: '', description_detaillee: '', inclus: '', contre_indications: '', conseils_apres_soin: '' },
-        ar: { nom: '', description: '', description_detaillee: '', inclus: '', contre_indications: '', conseils_apres_soin: '' }
+  fr: { nom: '', description: '', description_detaillee: '', inclus: '', contre_indications: '', conseils_apres_soin: '' },
+  en: { nom: '', description: '', description_detaillee: '', inclus: '', contre_indications: '', conseils_apres_soin: '' }
       }
     });
     setCurrentLanguage('fr');

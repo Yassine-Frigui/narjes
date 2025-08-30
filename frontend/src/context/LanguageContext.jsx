@@ -14,12 +14,10 @@ export const useLanguage = () => {
 export const LanguageProvider = ({ children }) => {
   const { i18n } = useTranslation();
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language || 'fr');
-  const [isRTL, setIsRTL] = useState(false);
 
   const supportedLanguages = [
     { code: 'fr', name: 'Français', flag: '🇫🇷' },
-    { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'ar', name: 'العربية', flag: '🇸🇦' },
+    { code: 'en', name: 'English', flag: '🇺🇸' }
   ];
 
   const changeLanguage = async (languageCode) => {
@@ -27,16 +25,12 @@ export const LanguageProvider = ({ children }) => {
       await i18n.changeLanguage(languageCode);
       setCurrentLanguage(languageCode);
       
-      // Update RTL status
-      const isRightToLeft = languageCode === 'ar';
-      setIsRTL(isRightToLeft);
-      
-      // Save to localStorage for persistence
-      localStorage.setItem('selectedLanguage', languageCode);
-      
-      // Update document direction and language
-      document.documentElement.dir = isRightToLeft ? 'rtl' : 'ltr';
-      document.documentElement.lang = languageCode;
+  // Save to localStorage for persistence
+  localStorage.setItem('selectedLanguage', languageCode);
+
+  // Always use LTR in this project (Arabic removed)
+  document.documentElement.dir = 'ltr';
+  document.documentElement.lang = languageCode;
       
     } catch (error) {
       console.error('Error changing language:', error);
@@ -44,14 +38,13 @@ export const LanguageProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // Set initial RTL status
-    const isRightToLeft = currentLanguage === 'ar';
-    setIsRTL(isRightToLeft);
-    
-    // Set initial document direction
-    document.documentElement.dir = isRightToLeft ? 'rtl' : 'ltr';
+    // Ensure document language and direction are set (LTR only)
+    document.documentElement.dir = 'ltr';
     document.documentElement.lang = currentLanguage;
   }, [currentLanguage]);
+
+  // RTL disabled - always false
+  const isRTL = false;
 
   const value = {
     currentLanguage,

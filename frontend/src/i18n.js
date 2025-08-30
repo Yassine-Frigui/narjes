@@ -5,7 +5,6 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 // Import translation files
 import frTranslation from './locales/fr/translation.json';
 import enTranslation from './locales/en/translation.json';
-import arTranslation from './locales/ar/translation.json';
 
 // Configuration for language detection
 const detectionOptions = {
@@ -35,30 +34,11 @@ i18n
       en: {
         translation: enTranslation,
       },
-      ar: {
-        translation: arTranslation,
-      },
     },
     
-    // Handle RTL languages
     react: {
       useSuspense: false,
     },
   });
-
-// Function to set RTL/LTR direction based on language
-export const setDirection = (language) => {
-  const isRTL = language === 'ar';
-  document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
-  document.documentElement.lang = language;
-};
-
-// Set initial direction
-setDirection(i18n.language);
-
-// Listen for language changes to update direction
-i18n.on('languageChanged', (lng) => {
-  setDirection(lng);
-});
 
 export default i18n;

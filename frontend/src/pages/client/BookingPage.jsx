@@ -768,7 +768,7 @@ const BookingPage = () => {
                         {formData.date_reservation && formData.heure_reservation && (
                           <div className="mt-2 pt-2 border-top border-pink-200">
                             <strong>{t('booking.form.summary.appointment')}:</strong> {' '}
-                            {new Date(formData.date_reservation).toLocaleDateString(i18n.language === 'ar' ? 'ar-TN' : i18n.language === 'en' ? 'en-US' : 'fr-FR', {
+                            {new Date(formData.date_reservation).toLocaleDateString(i18n.language === 'en' ? 'en-US' : 'fr-FR', {
                               weekday: 'long',
                               year: 'numeric',
                               month: 'long',

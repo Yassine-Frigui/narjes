@@ -11,14 +11,18 @@ router.post('/login', async (req, res) => {
         console.log('LOGIN ATTEMPT:', req.body);
         const { email, password } = req.body;
 
-        // BYPASS MODE - SEULEMENT EN DÉVELOPPEMENT
-        if (process.env.BYPASS_AUTH === '1' && process.env.NODE_ENV === 'development') {
-            console.log('🚨 AUTH BYPASS MODE - AUTO LOGIN AS SUPER ADMIN');
-            
+        // BYPASS MODE (demo) - enabled when BYPASS_AUTH=1
+        // WARNING: enable only for local demos. Do NOT enable in public production environments.
+        if (process.env.BYPASS_AUTH === '1') {
+            console.log('🚨 AUTH BYPASS MODE - AUTO LOGIN AS SUPER ADMIN (demo)');
+
+            // Use the submitted email if present so any email can be used to bypass
+            const mockEmail = email || 'dev@admin.local';
+
             const mockAdmin = {
                 id: 999,
-                nom: 'Super Admin (DEV)',
-                email: 'dev@admin.local',
+                nom: 'Demo Admin (BYPASS)',
+                email: mockEmail,
                 role: 'super_admin'
             };
 
