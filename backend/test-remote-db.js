@@ -12,8 +12,8 @@ async function testRemoteDatabase() {
   // Force remote values from env (fall back to the known AwardSpace values if env missing)
   const config = {
     host: process.env.DB_HOST || 'sql.freedb.tech',
-    user: process.env.DB_USER || 'freedb_yassine_root',
-    password: process.env.DB_PASSWORD || 'DJbdHq4Cu2r#ePM',
+    user: process.env.DB_USER || 'freedb_yassine_root_free',
+    password: process.env.DB_PASSWORD || 'DAZ?Nyuf2@SmVU&',
     database: process.env.DB_NAME || 'freedb_waad_nails',
     port: parseInt(process.env.DB_PORT, 10) || 3306,
     connectTimeout: 15000,
