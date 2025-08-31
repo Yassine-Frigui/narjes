@@ -217,10 +217,10 @@ export const adminAPI = {
   deleteAdministrateur: (id) => axios.delete(`/api/admin/utilisateurs/${id}`),
 
   // Dépenses mensuelles
+  getExpenseCategories: () => axios.get('/api/admin/expenses/categories'),
   getMonthlyExpenses: (month, year) => axios.get('/api/admin/expenses', { params: { month, year } }),
   updateExpense: (category, data) => axios.put(`/api/admin/expenses/${category}`, data),
-  initializeExpenses: (month, year) => axios.post('/api/admin/expenses/initialize', { month, year }),
-  getExpenseHistory: (category, limit) => axios.get(`/api/admin/expenses/history/${category}`, { params: { limit } }),
+  deleteExpenseCategory: (category) => axios.delete(`/api/admin/expenses/${category}`),
 
   // Revenus
   getMonthlyRevenue: () => axios.get('/api/admin/revenue/monthly'),

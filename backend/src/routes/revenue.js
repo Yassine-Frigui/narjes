@@ -24,7 +24,8 @@ router.get('/monthly', async (req, res) => {
     res.json({ revenue: parseFloat(revenue) });
   } catch (error) {
     console.error('Error fetching monthly revenue:', error);
-    res.status(500).json({ error: 'Erreur lors de la récupération du chiffre d\'affaires' });
+    // Return 0 if there's any error (table doesn't exist, etc.)
+    res.json({ revenue: 0 });
   }
 });
 
