@@ -4,12 +4,7 @@ import i18n from '../i18n'
 // Configuration de base d'axios
 // Use the backend URL directly in production
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
-
-axios.de  // Expenses management
-  getMonthlyExpenses: (month, year) => axios.get('/api/admin/expenses', { params: { month, year } }),
-  updateExpense: (category, data) => axios.put(`/api/admin/expenses/${category}`, data),
-  initializeExpenses: (month, year) => axios.post('/api/admin/expenses/initialize', { month, year }),
-  getExpenseHistory: (category, limit) => axios.get(`/api/admin/expenses/history/${category}`, { params: { limit } }),s.baseURL = API_BASE_URL
+axios.defaults.baseURL = API_BASE_URL
 axios.defaults.withCredentials = true
 
 // Add ngrok warning bypass header
