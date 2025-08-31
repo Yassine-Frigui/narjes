@@ -24,7 +24,7 @@ import AdminServices from './pages/admin/AdminServices'
 import AdminInventaire from './pages/admin/AdminInventaire'
 import AdminSettings from './pages/admin/AdminSettings'
 import AdminStatistics from './pages/admin/AdminStatistics'
-import AdminInfluencers from './pages/admin/AdminInfluencers'
+import AdminCosts from './pages/admin/AdminCosts'
 
 // Import des composants
 import ClientLayout from './components/layouts/ClientLayout'
@@ -287,7 +287,7 @@ function App() {
                     <AdminStatistics />
                   </motion.div>
                 } />
-                <Route path="influencers" element={
+                <Route path="costs" element={
                   <motion.div
                     initial="initial"
                     animate="in"
@@ -295,7 +295,7 @@ function App() {
                     variants={pageVariants}
                     transition={pageTransition}
                   >
-                    <AdminInfluencers />
+                    <AdminCosts />
                   </motion.div>
                 } />
                 <Route path="settings" element={

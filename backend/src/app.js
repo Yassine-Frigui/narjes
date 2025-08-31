@@ -18,6 +18,9 @@ const adminRoutes = require('./routes/admin');
 const publicRoutes = require('./routes/public');
 const membershipRoutes = require('./routes/memberships');
 const statisticsRoutes = require('./routes/statistics');
+const influencerRoutes = require('./routes/influencer');
+const expensesRoutes = require('./routes/expenses');
+const revenueRoutes = require('./routes/revenue');
 
 // Import de la configuration de base de données
 const { testConnection } = require('../config/database');
@@ -71,6 +74,16 @@ app.use('/api/admin/statistics', statisticsRoutes);
 console.log('📊 Statistics routes mounted at /api/admin/statistics');
 app.use('/api/public', publicRoutes);
 app.use('/api/memberships', membershipRoutes);
+
+// Influencer tracking routes (public redirect + admin management)
+app.use('/', influencerRoutes); // For /r/:code redirect
+app.use('/', influencerRoutes); // For /api/admin/influencer endpoints
+console.log('🔗 Influencer tracking routes mounted');
+
+// Expenses and revenue routes
+app.use('/api/admin/expenses', expensesRoutes);
+app.use('/api/admin/revenue', revenueRoutes);
+console.log('💰 Expenses and revenue routes mounted');
 
 // Route de test
 app.get('/api/test', (req, res) => {

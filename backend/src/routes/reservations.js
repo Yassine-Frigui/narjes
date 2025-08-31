@@ -171,6 +171,43 @@ router.post('/', validateClientData, validateReservationData, async (req, res) =
 
         console.log('Reservation created:', reservationId);
 
+        // **INFLUENCER TRACKING: Record conversion if referral cookie exists**
+        try {
+            const influencerCode = req.cookies.influencer_code;
+            if (influencerCode) {
+                console.log('🔗 Influencer code detected:', influencerCode);
+                
+                // Look up the influencer link
+                const [linkRows] = await executeQuery(
+                    'SELECT id FROM influencer_links WHERE code = ? AND active = 1',
+                    [influencerCode]
+                );
+
+                if (linkRows.length > 0) {
+                    const linkId = linkRows[0].id;
+                    
+                    // Record conversion event
+                    await executeQuery(
+                        `INSERT INTO influencer_events (influencer_link_id, code, event_type, 
+                         reservation_id, client_id, metadata, created_at) 
+                         VALUES (?, ?, 'conversion', ?, ?, ?, NOW())`,
+                        [linkId, influencerCode, reservationId, client_id, JSON.stringify({
+                            service_id,
+                            prix_final: prix_service,
+                            session_converted_from_draft: convertedFromDraft
+                        })]
+                    );
+                    
+                    console.log('✅ Influencer conversion recorded for link:', influencerCode);
+                } else {
+                    console.log('⚠️ Influencer code not found or inactive:', influencerCode);
+                }
+            }
+        } catch (influencerError) {
+            console.error('❌ Error recording influencer conversion:', influencerError);
+            // Don't fail the reservation if influencer tracking fails
+        }
+
         // Generate initial verification code for pre-confirmation
         const initialVerificationCode = Math.floor(100000 + Math.random() * 900000).toString();
         const initialVerificationToken = require('crypto').randomBytes(32).toString('hex');

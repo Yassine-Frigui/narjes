@@ -72,9 +72,9 @@ const AdminSidebar = () => {
       label: 'Statistiques'
     },
     {
-      path: '/admin/influencers',
+      path: '/admin/costs',
       icon: <FaUser />,
-      label: 'Influenceurs'
+      label: 'Coûts & Marketing'
     },
     {
       path: '/admin/settings',
