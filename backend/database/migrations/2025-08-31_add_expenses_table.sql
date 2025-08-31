@@ -1,35 +1,37 @@
 -- Migration to add expenses table for cost management
--- Run this after the influencer tables migration
+-- Expenses are tracked monthly with preset categories
 
--- Expenses table for tracking business costs
-CREATE TABLE IF NOT EXISTS expenses (
+-- Monthly expenses table - each row represents one category for one month
+CREATE TABLE IF NOT EXISTS monthly_expenses (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    amount DECIMAL(10,2) NOT NULL,
-    category ENUM('rent', 'salaries', 'utilities', 'supplies', 'marketing', 'other') DEFAULT 'other',
-    recurring BOOLEAN DEFAULT TRUE,
-    description TEXT,
+    category ENUM('rent', 'salaries', 'utilities', 'supplies', 'marketing', 'insurance', 'maintenance', 'other') NOT NULL,
+    month INT NOT NULL, -- 1-12
+    year INT NOT NULL,
+    amount DECIMAL(10,2) NOT NULL DEFAULT 0,
+    notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_category_month_year (category, month, year)
 );
 
--- Insert some sample expenses
-INSERT INTO expenses (name, amount, category, recurring, description) VALUES
-('Loyer mensuel', 800.00, 'rent', TRUE, 'Loyer du salon de beauté'),
-('Salaire employé', 1500.00, 'salaries', TRUE, 'Salaire mensuel de l\'esthéticienne'),
-('Électricité', 120.00, 'utilities', TRUE, 'Facture d\'électricité mensuelle'),
-('Fournitures cosmétiques', 300.00, 'supplies', TRUE, 'Produits de beauté et matériel'),
-('Publicité Facebook', 150.00, 'marketing', TRUE, 'Campagnes publicitaires mensuelles');
+-- Insert current month's preset categories with default amounts
+SET @current_month = MONTH(CURDATE());
+SET @current_year = YEAR(CURDATE());
 
--- Add index for better performance
-CREATE INDEX idx_expenses_category ON expenses(category);
-CREATE INDEX idx_expenses_recurring ON expenses(recurring);
-CREATE INDEX idx_expenses_created_at ON expenses(created_at);
+INSERT INTO monthly_expenses (category, month, year, amount, notes) VALUES
+('rent', @current_month, @current_year, 800.00, 'Loyer du salon'),
+('salaries', @current_month, @current_year, 1500.00, 'Salaire employé'),
+('utilities', @current_month, @current_year, 120.00, 'Électricité, eau, gaz'),
+('supplies', @current_month, @current_year, 250.00, 'Produits de beauté'),
+('marketing', @current_month, @current_year, 150.00, 'Publicité en ligne'),
+('insurance', @current_month, @current_year, 80.00, 'Assurance professionnelle'),
+('maintenance', @current_month, @current_year, 50.00, 'Entretien équipement'),
+('other', @current_month, @current_year, 0.00, 'Autres dépenses')
+ON DUPLICATE KEY UPDATE amount = VALUES(amount);
 
+-- Reset AUTO_INCREMENT if needed
+ALTER TABLE monthly_expenses AUTO_INCREMENT = 1;
 
-delete from expenses where amount = 300.00 and name = 'Fournitures cosmétiques';
-
-
----*
-
-reset the expenses id : 
+-- Add indexes for better performance
+CREATE INDEX idx_monthly_expenses_month_year ON monthly_expenses(month, year);
+CREATE INDEX idx_monthly_expenses_category ON monthly_expenses(category); 

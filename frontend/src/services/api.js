@@ -5,7 +5,11 @@ import i18n from '../i18n'
 // Use the backend URL directly in production
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 
-axios.defaults.baseURL = API_BASE_URL
+axios.de  // Expenses management
+  getMonthlyExpenses: (month, year) => axios.get('/api/admin/expenses', { params: { month, year } }),
+  updateExpense: (category, data) => axios.put(`/api/admin/expenses/${category}`, data),
+  initializeExpenses: (month, year) => axios.post('/api/admin/expenses/initialize', { month, year }),
+  getExpenseHistory: (category, limit) => axios.get(`/api/admin/expenses/history/${category}`, { params: { limit } }),s.baseURL = API_BASE_URL
 axios.defaults.withCredentials = true
 
 // Add ngrok warning bypass header
@@ -215,7 +219,23 @@ export const adminAPI = {
   createAdministrateur: (data) => axios.post('/api/admin/utilisateurs', data),
   updateAdministrateur: (id, data) => axios.put(`/api/admin/utilisateurs/${id}`, data),
   toggleAdminStatus: (id) => axios.patch(`/api/admin/utilisateurs/${id}/toggle`),
-  deleteAdministrateur: (id) => axios.delete(`/api/admin/utilisateurs/${id}`)
+  deleteAdministrateur: (id) => axios.delete(`/api/admin/utilisateurs/${id}`),
+
+  // Dépenses mensuelles
+  getMonthlyExpenses: (month, year) => axios.get('/api/admin/expenses', { params: { month, year } }),
+  updateExpense: (category, data) => axios.put(`/api/admin/expenses/${category}`, data),
+  initializeExpenses: (month, year) => axios.post('/api/admin/expenses/initialize', { month, year }),
+  getExpenseHistory: (category, limit) => axios.get(`/api/admin/expenses/history/${category}`, { params: { limit } }),
+
+  // Revenus
+  getMonthlyRevenue: () => axios.get('/api/admin/revenue/monthly'),
+  getRevenueByPeriod: (startDate, endDate) => axios.get(`/api/admin/revenue/period?startDate=${startDate}&endDate=${endDate}`),
+
+  // Influenceurs
+  getInfluencerLinks: () => axios.get('/api/admin/influencer'),
+  createInfluencerLink: (data) => axios.post('/api/admin/influencer', data),
+  updateInfluencerLink: (id, data) => axios.put(`/api/admin/influencer/${id}`, data),
+  getInfluencerStats: (id) => axios.get(`/api/admin/influencer/${id}/stats`)
 }
 
 // Intercepteur pour gérer les erreurs d'authentification
