@@ -24,6 +24,7 @@ import AdminServices from './pages/admin/AdminServices'
 import AdminInventaire from './pages/admin/AdminInventaire'
 import AdminSettings from './pages/admin/AdminSettings'
 import AdminStatistics from './pages/admin/AdminStatistics'
+import AdminInfluencers from './pages/admin/AdminInfluencers'
 
 // Import des composants
 import ClientLayout from './components/layouts/ClientLayout'
@@ -284,6 +285,17 @@ function App() {
                     transition={pageTransition}
                   >
                     <AdminStatistics />
+                  </motion.div>
+                } />
+                <Route path="influencers" element={
+                  <motion.div
+                    initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={pageVariants}
+                    transition={pageTransition}
+                  >
+                    <AdminInfluencers />
                   </motion.div>
                 } />
                 <Route path="settings" element={

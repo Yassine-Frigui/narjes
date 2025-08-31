@@ -72,6 +72,11 @@ const AdminSidebar = () => {
       label: 'Statistiques'
     },
     {
+      path: '/admin/influencers',
+      icon: <FaUser />,
+      label: 'Influenceurs'
+    },
+    {
       path: '/admin/settings',
       icon: <FaCog />,
       label: 'Paramètres'
