@@ -11,10 +11,10 @@ const mysql = require('mysql2/promise');
 async function testRemoteDatabase() {
   // Force remote values from env (fall back to the known AwardSpace values if env missing)
   const config = {
-    host: process.env.DB_HOST || 'sql7.freesqldatabase.com',
-    user: process.env.DB_USER || 'sql7795970',
-    password: process.env.DB_PASSWORD || 'DYYCvzN3PW',
-    database: process.env.DB_NAME || 'sql7795970',
+    host: process.env.DB_HOST || 'sql.freedb.tech',
+    user: process.env.DB_USER || 'freedb_yassine_root',
+    password: process.env.DB_PASSWORD || 'DJbdHq4Cu2r#ePM',
+    database: process.env.DB_NAME || 'freedb_waad_nails',
     port: parseInt(process.env.DB_PORT, 10) || 3306,
     connectTimeout: 15000,
   // Allow enabling SSL via DB_SSL env var. Default: disabled (false).
@@ -25,7 +25,7 @@ async function testRemoteDatabase() {
   };
 
   console.log('Testing REMOTE database with config:');
-  console.log(` host=${config.host} user=${config.user} database=${config.database} port=${config.port}`);
+  console.log(` host=${config.host} user=${config.user} database=${config.database} port=${config.port} password=${config.passowrd}`);
 
   let connection;
   try {
