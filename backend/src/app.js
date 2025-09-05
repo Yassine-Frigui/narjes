@@ -82,13 +82,31 @@ app.use(performanceMiddleware.responseTime);
 app.use(performanceMiddleware.staticCache);
 
 app.use(cors({
-    origin: [
-        process.env.FRONTEND_URL || 'http://localhost:3000',
-        'https://waad-nails.onrender.com',
-        'https://waad-nails.netlify.app/',
-        'http://localhost:3000',
-        'http://127.0.0.1:3000'
-    ],
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        
+        const allowedOrigins = [
+            process.env.FRONTEND_URL || 'http://localhost:3000',
+            'https://waad-nails.onrender.com',
+            'https://waad-nails.netlify.app',
+            'https://waad-nails.netlify.app/',
+            'http://localhost:3000',
+            'http://127.0.0.1:3000'
+        ];
+        
+        // Check if origin is allowed
+        const isAllowed = allowedOrigins.some(allowedOrigin => {
+            return origin === allowedOrigin || origin.startsWith(allowedOrigin);
+        });
+        
+        if (isAllowed) {
+            return callback(null, true);
+        }
+        
+        console.warn(`CORS blocked origin: ${origin}`);
+        return callback(null, false);
+    },
     credentials: true,
     optionsSuccessStatus: 200
 }));

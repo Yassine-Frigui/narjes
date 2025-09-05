@@ -36,20 +36,23 @@ const performanceMiddleware = {
 
     // Security headers with performance considerations
     security: helmet({
-        // Content Security Policy
+        // Content Security Policy - more permissive for production
         contentSecurityPolicy: {
             directives: {
                 defaultSrc: ["'self'"],
                 styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
                 fontSrc: ["'self'", "https://fonts.gstatic.com"],
-                imgSrc: ["'self'", "data:", "https:"],
-                scriptSrc: ["'self'"],
-                connectSrc: ["'self'"]
+                imgSrc: ["'self'", "data:", "https:", "blob:"],
+                scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+                connectSrc: ["'self'", "https://waad-nails.onrender.com", "https://waad-nails.netlify.app"]
             }
         },
         
-        // Cross Origin Embedder Policy
+        // Cross Origin Embedder Policy - disabled for compatibility
         crossOriginEmbedderPolicy: false,
+        
+        // Cross Origin Resource Policy - permissive
+        crossOriginResourcePolicy: { policy: "cross-origin" },
         
         // HSTS with performance-friendly settings
         hsts: {
@@ -82,15 +85,37 @@ const performanceMiddleware = {
     responseTime: (req, res, next) => {
         const start = Date.now();
         
-        res.on('finish', () => {
+        // Set header before any response is sent
+        const originalSend = res.send;
+        const originalJson = res.json;
+        
+        res.send = function(data) {
             const duration = Date.now() - start;
-            res.setHeader('X-Response-Time', `${duration}ms`);
+            if (!res.headersSent) {
+                res.setHeader('X-Response-Time', `${duration}ms`);
+            }
             
             // Log slow requests
             if (duration > 1000) {
                 console.warn(`⚠️ Slow request: ${req.method} ${req.url} took ${duration}ms`);
             }
-        });
+            
+            return originalSend.call(this, data);
+        };
+        
+        res.json = function(data) {
+            const duration = Date.now() - start;
+            if (!res.headersSent) {
+                res.setHeader('X-Response-Time', `${duration}ms`);
+            }
+            
+            // Log slow requests
+            if (duration > 1000) {
+                console.warn(`⚠️ Slow request: ${req.method} ${req.url} took ${duration}ms`);
+            }
+            
+            return originalJson.call(this, data);
+        };
         
         next();
     },
