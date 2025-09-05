@@ -1,37 +1,29 @@
--- Migration to add expenses table for cost management
--- Expenses are tracked monthly with preset categories
+-- Migration : Ajouter la table des dépenses
+-- Date : 2025-08-31
+-- Description : Créer la table des dépenses avec une colonne mois au lieu d'une table monthly_expenses séparée
 
--- Monthly expenses table - each row represents one category for one month
-CREATE TABLE IF NOT EXISTS monthly_expenses (
+
+-- Créer la table des dépenses
+CREATE TABLE IF NOT EXISTS expenses (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    category ENUM('rent', 'salaries', 'utilities', 'supplies', 'marketing', 'insurance', 'maintenance', 'other') NOT NULL,
-    month INT NOT NULL, -- 1-12
-    year INT NOT NULL,
+    category VARCHAR(100) NOT NULL,
     amount DECIMAL(10,2) NOT NULL DEFAULT 0,
+    month INT NOT NULL,
+    year INT NOT NULL,
     notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     UNIQUE KEY unique_category_month_year (category, month, year)
 );
 
--- Insert current month's preset categories with default amounts
-SET @current_month = MONTH(CURDATE());
-SET @current_year = YEAR(CURDATE());
+-- Insérer quelques catégories de dépenses par défaut pour le mois en cours
+INSERT IGNORE INTO expenses (category, amount, month, year, notes) VALUES
+('Loyer', 0, MONTH(NOW()), YEAR(NOW()), 'Loyer mensuel'),
+('Services publics', 0, MONTH(NOW()), YEAR(NOW()), 'Électricité, eau, gaz'),
+('Fournitures', 0, MONTH(NOW()), YEAR(NOW()), 'Fournitures et matériaux de beauté'),
+('Marketing', 0, MONTH(NOW()), YEAR(NOW()), 'Publicité et promotions'),
+('Assurance', 0, MONTH(NOW()), YEAR(NOW()), 'Assurance professionnelle'),
+('Équipement', 0, MONTH(NOW()), YEAR(NOW()), 'Entretien et achats d\'équipement');
 
-INSERT INTO monthly_expenses (category, month, year, amount, notes) VALUES
-('rent', @current_month, @current_year, 800.00, 'Loyer du salon'),
-('salaries', @current_month, @current_year, 1500.00, 'Salaire employé'),
-('utilities', @current_month, @current_year, 120.00, 'Électricité, eau, gaz'),
-('supplies', @current_month, @current_year, 250.00, 'Produits de beauté'),
-('marketing', @current_month, @current_year, 150.00, 'Publicité en ligne'),
-('insurance', @current_month, @current_year, 80.00, 'Assurance professionnelle'),
-('maintenance', @current_month, @current_year, 50.00, 'Entretien équipement'),
-('other', @current_month, @current_year, 0.00, 'Autres dépenses')
-ON DUPLICATE KEY UPDATE amount = VALUES(amount);
-
--- Reset AUTO_INCREMENT if needed
-ALTER TABLE monthly_expenses AUTO_INCREMENT = 1;
-
--- Add indexes for better performance
-CREATE INDEX idx_monthly_expenses_month_year ON monthly_expenses(month, year);
-CREATE INDEX idx_monthly_expenses_category ON monthly_expenses(category); 
+-- Afficher que la table a été créée avec succès
+SELECT 'Table des dépenses créée avec succès' as Statut;

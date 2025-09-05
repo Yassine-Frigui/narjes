@@ -216,9 +216,9 @@ export const adminAPI = {
   toggleAdminStatus: (id) => axios.patch(`/api/admin/utilisateurs/${id}/toggle`),
   deleteAdministrateur: (id) => axios.delete(`/api/admin/utilisateurs/${id}`),
 
-  // Dépenses mensuelles
+    // Expenses Management
   getExpenseCategories: () => axios.get('/api/admin/expenses/categories'),
-  getMonthlyExpenses: (month, year) => axios.get('/api/admin/expenses', { params: { month, year } }),
+  getExpenses: (month, year) => axios.get('/api/admin/expenses', { params: { month, year } }),
   updateExpense: (category, data) => axios.put(`/api/admin/expenses/${category}`, data),
   deleteExpenseCategory: (category) => axios.delete(`/api/admin/expenses/${category}`),
 

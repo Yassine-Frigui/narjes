@@ -246,7 +246,7 @@ const ResetPassword = () => {
                                                 name="newPassword"
                                                 value={formData.newPassword}
                                                 onChange={handleChange}
-                                                placeholder="Au moins 6 caractères"
+                                                placeholder="Au moins 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre"
                                                 required
                                                 disabled={loading}
                                             />

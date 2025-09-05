@@ -60,7 +60,7 @@ const AdminCosts = () => {
       const currentMonth = new Date().getMonth() + 1;
       const currentYear = new Date().getFullYear();
       
-      const response = await adminAPI.getMonthlyExpenses(currentMonth, currentYear);
+      const response = await adminAPI.getExpenses(currentMonth, currentYear);
       
       // Convert array to object with category name as key
       const expenseData = {};

@@ -2,9 +2,11 @@ const express = require('express');
 const router = express.Router();
 const { executeQuery } = require('../../config/database');
 const { authenticateAdmin } = require('../middleware/auth');
+const dbCacheMiddleware = require('../middleware/dbCache');
+const cacheService = require('../services/CacheService');
 
-// Main statistics endpoint
-router.get('/', authenticateAdmin, async (req, res) => {
+// Main statistics endpoint with caching
+router.get('/', authenticateAdmin, dbCacheMiddleware.cacheStats(cacheService.TTL.MEDIUM), async (req, res) => {
     try {
         const { dateRange = '30' } = req.query;
         const days = parseInt(dateRange);

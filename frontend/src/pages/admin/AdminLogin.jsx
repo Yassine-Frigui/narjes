@@ -106,7 +106,7 @@ const AdminLogin = () => {
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        placeholder="admin@waad.ca"
+                        placeholder="admin@example.com"
                         required
                         autoFocus
                       />
@@ -187,12 +187,14 @@ const AdminLogin = () => {
                     )}
                   </motion.button>
 
-                  {/* Demo Credentials */}
-                  <div className="text-center">
-                    <small className="text-muted">
-                      <strong>Demo:</strong> admin@waad.ca / admin123
-                    </small>
-                  </div>
+                  {/* Demo Notice for Staging */}
+                  {process.env.NODE_ENV !== 'production' && (
+                    <div className="text-center">
+                      <small className="text-muted">
+                        <strong>Demo Environment:</strong> Contact administrator for credentials
+                      </small>
+                    </div>
+                  )}
                 </motion.form>
               </div>
 

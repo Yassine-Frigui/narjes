@@ -100,23 +100,8 @@ const hashPassword = async (password) => {
 // Fonction pour vérifier les mots de passe
 const verifyPassword = async (password, hashedPassword) => {
     try {
-        // Added logging for debugging
-        console.log('Password verification attempt');
-        console.log('Plain password length:', password.length);
-        console.log('Hashed password:', hashedPassword.substring(0, 20) + '...');
-        
         // Standard bcrypt verification
         const isValid = await bcrypt.compare(password, hashedPassword);
-        
-        // Log outcome
-        console.log('Password verification result:', isValid);
-        
-        // For hard-coded admin from schema (admin123)
-        if (!isValid && password === 'admin123' && hashedPassword === '$2b$12$rOz8kWKKU5PjU7eGBEtNruQcL4M2FT8Vh5XGjGVOhKQnhK5M4C4sO') {
-            console.log('Special case: Using hardcoded admin password');
-            return true;
-        }
-        
         return isValid;
     } catch (error) {
         console.error('Password verification error:', error);
@@ -148,7 +133,12 @@ const validatePhoneNumber = (phone) => {
 // Fonction pour sanitizer les entrées utilisateur
 const sanitizeInput = (input) => {
     if (typeof input !== 'string') return input;
-    return input.trim().replace(/[<>]/g, '');
+    // Remove HTML tags, normalize whitespace, and trim
+    return input
+        .replace(/<[^>]*>/g, '') // Remove HTML tags
+        .replace(/[<>'"&]/g, '') // Remove potentially dangerous characters
+        .replace(/\s+/g, ' ') // Normalize whitespace
+        .trim();
 };
 
 // Middleware de validation des données
@@ -221,8 +211,16 @@ const validateClientRegistration = (req, res, next) => {
         return res.status(400).json({ message: 'Format de téléphone invalide' });
     }
 
-    if (mot_de_passe.length < 6) {
-        return res.status(400).json({ message: 'Le mot de passe doit contenir au moins 6 caractères' });
+    if (mot_de_passe.length < 8) {
+        return res.status(400).json({ message: 'Le mot de passe doit contenir au moins 8 caractères' });
+    }
+
+    // Check password strength (at least 8 chars, 1 uppercase, 1 lowercase, 1 number)
+    const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!strongPasswordRegex.test(mot_de_passe)) {
+        return res.status(400).json({ 
+            message: 'Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre' 
+        });
     }
 
     // Sanitizer les données

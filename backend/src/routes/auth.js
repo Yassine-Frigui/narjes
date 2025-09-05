@@ -8,7 +8,6 @@ const router = express.Router();
 // Connexion administrateur
 router.post('/login', async (req, res) => {
     try {
-        console.log('LOGIN ATTEMPT:', req.body);
         const { email, password } = req.body;
 
         // BYPASS MODE (demo) - enabled when BYPASS_AUTH=1
@@ -32,8 +31,9 @@ router.post('/login', async (req, res) => {
                 role: mockAdmin.role
             });
 
-            // Determine whether cookie should be marked secure. Prefer explicit env override.
-            const cookieSecure = (process.env.FORCE_SECURE_COOKIES === '1') ? true : (req.secure || req.headers['x-forwarded-proto'] === 'https' || process.env.NODE_ENV === 'production');
+            // Determine whether cookie should be marked secure
+            const cookieSecure = (process.env.FORCE_SECURE_COOKIES === '1') || 
+                                (req.secure || req.headers['x-forwarded-proto'] === 'https' || process.env.NODE_ENV === 'production');
             res.cookie('adminToken', token, {
                 httpOnly: true,
                 secure: cookieSecure,
@@ -49,7 +49,6 @@ router.post('/login', async (req, res) => {
         }
 
         if (!email || !password) {
-            console.log('Missing email or password');
             return res.status(400).json({ message: 'Email et mot de passe requis' });
         }
 
@@ -58,7 +57,6 @@ router.post('/login', async (req, res) => {
             'SELECT id, nom, email, mot_de_passe, role, actif FROM utilisateurs WHERE email = ? AND actif = TRUE',
             [email]
         );
-        console.log('ADMIN FOUND:', admin.length > 0 ? 'YES' : 'NO');
 
         if (!admin.length) {
             return res.status(401).json({ message: 'Identifiants invalides' });
@@ -66,7 +64,6 @@ router.post('/login', async (req, res) => {
 
         // Vérifier le mot de passe
         const isValidPassword = await verifyPassword(password, admin[0].mot_de_passe);
-        console.log('PASSWORD VALID:', isValidPassword);
         if (!isValidPassword) {
             return res.status(401).json({ message: 'Identifiants invalides' });
         }

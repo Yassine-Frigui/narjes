@@ -1,6 +1,7 @@
 const express = require('express');
 const ServiceModel = require('../models/Service');
 const { authenticateAdmin, requireRole } = require('../middleware/auth');
+const dbCacheMiddleware = require('../middleware/dbCache');
 const router = express.Router();
 
 // All routes require admin authentication
@@ -10,8 +11,8 @@ router.use(authenticateAdmin);
 // BASIC SERVICE CRUD OPERATIONS
 // ============================================================================
 
-// Get all services (with optional filters)
-router.get('/', async (req, res) => {
+// Get all services (with optional filters) - cached
+router.get('/', dbCacheMiddleware.cacheServices(), async (req, res) => {
     try {
         const { service_type, include_inactive } = req.query;
         const services = await ServiceModel.getAllServices(service_type, include_inactive === 'true');
@@ -22,8 +23,8 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Get service by ID
-router.get('/:id', async (req, res) => {
+// Get service by ID - cached
+router.get('/:id', dbCacheMiddleware.cacheServices(), async (req, res) => {
     try {
         const { id } = req.params;
         const service = await ServiceModel.getServiceById(id);
@@ -39,8 +40,8 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// Create new service
-router.post('/', requireRole(['super_admin', 'admin']), async (req, res) => {
+// Create new service - invalidate cache
+router.post('/', requireRole(['super_admin', 'admin']), dbCacheMiddleware.invalidateCache(['services', 'stats']), async (req, res) => {
     try {
         const serviceData = req.body;
         
@@ -65,8 +66,8 @@ router.post('/', requireRole(['super_admin', 'admin']), async (req, res) => {
     }
 });
 
-// Update service
-router.put('/:id', requireRole(['super_admin', 'admin']), async (req, res) => {
+// Update service - invalidate cache
+router.put('/:id', requireRole(['super_admin', 'admin']), dbCacheMiddleware.invalidateCache(['services', 'stats']), async (req, res) => {
     try {
         const { id } = req.params;
         const serviceData = req.body;
@@ -91,7 +92,7 @@ router.put('/:id', requireRole(['super_admin', 'admin']), async (req, res) => {
 });
 
 // Delete service (soft delete)
-router.delete('/:id', requireRole(['super_admin', 'admin']), async (req, res) => {
+router.delete('/:id', requireRole(['super_admin', 'admin']), dbCacheMiddleware.invalidateCache(['services', 'stats']), async (req, res) => {
     try {
         const { id } = req.params;
         

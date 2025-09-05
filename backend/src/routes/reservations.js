@@ -11,8 +11,6 @@ const router = express.Router();
 // Créer une nouvelle réservation (avec création de client si nécessaire)
 router.post('/', validateClientData, validateReservationData, async (req, res) => {
     try {
-        console.log('Received reservation data:', req.body);
-        
         const {
             // Données client
             nom, prenom, email, telephone, date_naissance, adresse, notes,

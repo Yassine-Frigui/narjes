@@ -84,17 +84,9 @@ router.post('/register', validateClientRegistration, async (req, res) => {
 // Client login
 router.post('/login', async (req, res) => {
     try {
-        console.log('=== LOGIN ATTEMPT ===');
-        console.log('Request body:', req.body);
-        
         const { email, mot_de_passe } = req.body;
 
-        console.log('Email:', email);
-        console.log('Password provided:', mot_de_passe ? 'YES' : 'NO');
-        console.log('Password length:', mot_de_passe ? mot_de_passe.length : 0);
-
         if (!email || !mot_de_passe) {
-            console.log('Missing email or password');
             return res.status(400).json({
                 message: 'Email et mot de passe requis'
             });
@@ -104,11 +96,7 @@ router.post('/login', async (req, res) => {
         const clientKey = email.toLowerCase();
         const attempts = loginAttempts.get(clientKey);
         
-        console.log('Client key:', clientKey);
-        console.log('Previous attempts:', attempts);
-        
         if (attempts && attempts.count >= MAX_LOGIN_ATTEMPTS && Date.now() < attempts.lockoutUntil) {
-            console.log('Account locked due to too many attempts');
             return res.status(429).json({
                 message: 'Trop de tentatives de connexion. Réessayez plus tard.',
                 lockoutUntil: attempts.lockoutUntil
@@ -116,19 +104,12 @@ router.post('/login', async (req, res) => {
         }
 
         // Find client
-        console.log('Searching for client with email:', email);
         const clients = await executeQuery(
             'SELECT id, nom, prenom, email, mot_de_passe, email_verifie, statut FROM clients WHERE email = ?',
             [email]
         );
         
-        console.log('Database query result:', clients.length > 0 ? 'USER FOUND' : 'NO USER FOUND');
-        if (clients.length > 0) {
-            console.log('Found client:', { id: clients[0].id, email: clients[0].email, statut: clients[0].statut });
-        }
-
         if (clients.length === 0) {
-            console.log('No client found with this email');
             // Increment login attempts for non-existent emails too
             const currentAttempts = attempts ? attempts.count + 1 : 1;
             loginAttempts.set(clientKey, {
@@ -142,23 +123,18 @@ router.post('/login', async (req, res) => {
         }
 
         const client = clients[0];
-        console.log('Client found, checking status...');
 
         // Check if account is active
         if (client.statut !== 'actif') {
-            console.log('Account is not active. Status:', client.statut);
             return res.status(401).json({
                 message: 'Compte désactivé. Contactez le support.'
             });
         }
 
-        console.log('Account is active, verifying password...');
         // Verify password
         const isValidPassword = await bcrypt.compare(mot_de_passe, client.mot_de_passe);
-        console.log('Password verification result:', isValidPassword);
 
         if (!isValidPassword) {
-            console.log('Password verification failed');
             // Increment login attempts
             const currentAttempts = attempts ? attempts.count + 1 : 1;
             loginAttempts.set(clientKey, {
@@ -171,25 +147,20 @@ router.post('/login', async (req, res) => {
             });
         }
 
-        console.log('Password verified successfully');
         // Reset login attempts on successful login
         loginAttempts.delete(clientKey);
 
-        console.log('Generating JWT token...');
         // Generate JWT token
         const token = generateToken(client.id);
-        console.log('Token generated successfully');
 
-        console.log('Setting cookie and sending response...');
         // Set httpOnly cookie
         res.cookie('clientToken', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: process.env.NODE_ENV === 'production' || process.env.FORCE_SECURE_COOKIES === '1',
             sameSite: 'strict',
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
 
-        console.log('Login successful for client:', client.email);
         res.json({
             message: 'Connexion réussie',
             client: {
@@ -475,7 +446,6 @@ router.post('/forgot-password', async (req, res) => {
                     verificationCode,
                     client.nom ? `${client.prenom} ${client.nom}` : client.prenom
                 );
-                console.log(`Password reset email sent to: ${client.email}`);
             } catch (emailError) {
                 console.error('Failed to send password reset email:', emailError);
                 // Don't reveal email sending failure to user
@@ -573,10 +543,19 @@ router.post('/reset-password', async (req, res) => {
         }
 
         // Validate password strength
-        if (newPassword.length < 6) {
+        if (newPassword.length < 8) {
             return res.status(400).json({
                 success: false,
-                message: 'Le mot de passe doit contenir au moins 6 caractères'
+                message: 'Le mot de passe doit contenir au moins 8 caractères'
+            });
+        }
+
+        // Check password strength (at least 8 chars, 1 uppercase, 1 lowercase, 1 number)
+        const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!strongPasswordRegex.test(newPassword)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre'
             });
         }
 
