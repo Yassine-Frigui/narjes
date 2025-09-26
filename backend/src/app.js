@@ -57,6 +57,7 @@ const reservationRoutes = require('./routes/reservations');
 const adminRoutes = require('./routes/admin');
 const statisticsRoutes = require('./routes/statistics');
 const publicRoutes = require('./routes/public');
+const clientsRoutes = require('./routes/clients');
 
 // Import de la configuration de base de données
 const { testConnection } = require('../config/database');
@@ -163,7 +164,8 @@ app.use('/api/reservations', reservationRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/admin/statistics', statisticsRoutes);
 app.use('/api/public/services', publicRoutes);
-console.log('📊 NBrow Studio routes mounted - auth, services, reservations, admin, statistics, public');
+app.use('/api/clients', clientsRoutes);
+console.log('📊 NBrow Studio routes mounted - auth, services, reservations, admin, statistics, public, clients');
 
 // Route de test
 app.get('/api/test', (req, res) => {
