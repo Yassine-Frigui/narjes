@@ -52,15 +52,10 @@ const authLimiter = rateLimit({
 
 // Import des routes
 const authRoutes = require('./routes/auth');
-const clientRoutes = require('./routes/clients');
-const clientAuthRoutes = require('./routes/clientAuth');
-const publicServicesRoutes = require('./routes/publicServices');
-const publicServicesMultilingualRoutes = require('./routes/publicServicesMultilingual');
 const serviceRoutes = require('./routes/services');
 const reservationRoutes = require('./routes/reservations');
 const inventaireRoutes = require('./routes/inventaire');
 const adminRoutes = require('./routes/admin');
-const publicRoutes = require('./routes/public');
 const membershipRoutes = require('./routes/memberships');
 const statisticsRoutes = require('./routes/statistics');
 const performanceRoutes = require('./routes/performance');
@@ -70,6 +65,7 @@ const revenueRoutes = require('./routes/revenue');
 
 // Import de la configuration de base de données
 const { testConnection } = require('../config/database');
+const performanceOptimizations = require('./middleware/performanceOptimizations');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -78,6 +74,7 @@ const PORT = process.env.PORT || 5000;
 // Performance middleware should be applied early
 app.use(performanceMiddleware.compression);
 app.use(performanceMiddleware.security);
+app.use(performanceOptimizations.compressLargeResponses(2048)); // Compress responses > 2KB
 app.use(performanceMiddleware.responseTime);
 app.use(performanceMiddleware.staticCache);
 
@@ -161,17 +158,12 @@ app.use((req, res, next) => {
 
 // Routes principales
 app.use('/api/auth', authRoutes);
-app.use('/api/clients', clientRoutes);
-app.use('/api/client', clientAuthRoutes);
-app.use('/api/public/services', publicServicesRoutes);
-app.use('/api/public/services-multilingual', publicServicesMultilingualRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/reservations', reservationRoutes);
 app.use('/api/inventaire', inventaireRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/admin/statistics', statisticsRoutes);
 console.log('📊 Statistics routes mounted at /api/admin/statistics');
-app.use('/api/public', publicRoutes);
 app.use('/api/memberships', membershipRoutes);
 
 // Influencer tracking routes (public redirect + admin management)
@@ -257,6 +249,10 @@ const startServer = async () => {
             try {
                 await cacheService.preloadCache();
                 console.log('✅ Cache system initialized');
+                
+                // Warm up performance cache
+                await performanceOptimizations.warmUpCache();
+                console.log('🚀 Performance optimizations ready');
             } catch (error) {
                 console.warn('⚠️ Cache initialization warning:', error.message);
             }
