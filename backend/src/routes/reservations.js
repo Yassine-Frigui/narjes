@@ -5,6 +5,8 @@ const { validateReservationData, validateClientData } = require('../middleware/a
 const { executeQuery } = require('../../config/database');
 const TelegramService = require('../services/TelegramService');
 const EmailService = require('../services/EmailService');
+const performanceOptimizations = require('../middleware/performanceOptimizations');
+const cacheService = require('../services/CacheService');
 const crypto = require('crypto');
 const router = express.Router();
 
@@ -57,17 +59,17 @@ router.post('/', validateClientData, validateReservationData, async (req, res) =
             console.log('New client created:', client_id);
         }
 
-        // Récupérer les détails du service pour calculer le prix et la durée
-        const service = await executeQuery('SELECT prix, duree FROM services WHERE id = ?', [service_id]);
-        if (!service.length) {
+        // Récupérer les détails du service pour calculer le prix et la durée avec cache
+        const service = await performanceOptimizations.getServiceById(service_id);
+        if (!service) {
             console.error('Service not found:', service_id);
             return res.status(404).json({ message: 'Service non trouvé' });
         }
 
-        console.log('Service found:', service[0]);
+        console.log('Service found:', service);
 
-        let prix_service = service[0].prix;
-        let duree_service = service[0].duree;
+        let prix_service = service.prix;
+        let duree_service = service.duree;
 
         // Si une variante est sélectionnée, utiliser son prix
         if (service_variant_id) {
