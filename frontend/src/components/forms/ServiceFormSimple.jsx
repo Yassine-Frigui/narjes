@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { 
   FaSave, 
   FaTimes, 
-  FaUpload, 
   FaCut
 } from 'react-icons/fa';
 import { adminAPI } from '../../services/api';
@@ -29,10 +28,6 @@ const ServiceForm = ({
     nouveau: false,
     actif: true
   });
-
-  const serviceTypes = [
-    { value: 'base', label: 'Service de base' }
-  ];
 
   useEffect(() => {
     if (isOpen) {
@@ -267,112 +262,10 @@ const ServiceForm = ({
                       </div>
                     </div>
                   </div>
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label">Catégorie *</label>
-                    <select
-                      className="form-select"
-                      value={formData.categorie_id}
-                      onChange={(e) => handleInputChange('categorie_id', e.target.value)}
-                      required
-                    >
-                      <option value="">Sélectionner une catégorie</option>
-                      {categories.map(cat => (
-                        <option key={cat.id} value={cat.id}>
-                          {cat.nom}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="row">
-                    <div className="col-md-6">
-                      <div className="mb-3">
-                        <label className="form-label">Prix (DT) *</label>
-                        <input
-                          type="number"
-                          step="0.01"
-                          className="form-control"
-                          value={formData.prix}
-                          onChange={(e) => handleInputChange('prix', e.target.value)}
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="mb-3">
-                        <label className="form-label">Durée (min) *</label>
-                        <input
-                          type="number"
-                          className="form-control"
-                          value={formData.duree}
-                          onChange={(e) => handleInputChange('duree', e.target.value)}
-                          required
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label">URL de l'image</label>
-                    <input
-                      type="url"
-                      className="form-control"
-                      value={formData.image_url}
-                      onChange={(e) => handleInputChange('image_url', e.target.value)}
-                      placeholder="https://example.com/image.jpg"
-                    />
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label">Ordre d'affichage</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      value={formData.ordre_affichage}
-                      onChange={(e) => handleInputChange('ordre_affichage', e.target.value)}
-                    />
-                  </div>
-
-                  <div className="mb-3">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        checked={formData.populaire}
-                        onChange={(e) => handleInputChange('populaire', e.target.checked)}
-                      />
-                      <label className="form-check-label">Service populaire</label>
-                    </div>
-                  </div>
-
-                  <div className="mb-3">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        checked={formData.nouveau}
-                        onChange={(e) => handleInputChange('nouveau', e.target.checked)}
-                      />
-                      <label className="form-check-label">Nouveau service</label>
-                    </div>
-                  </div>
-
-                  <div className="mb-3">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        checked={formData.actif}
-                        onChange={(e) => handleInputChange('actif', e.target.checked)}
-                      />
-                      <label className="form-check-label">Service actif</label>
-                    </div>
-                  </div>
                 </div>
               </div>
-      
+            </div>
+
             <div className="modal-footer border-0">
               <button
                 type="button"

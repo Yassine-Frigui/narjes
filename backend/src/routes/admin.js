@@ -146,7 +146,7 @@ router.patch('/reservations/:id/statut', async (req, res) => {
         const { id } = req.params;
         const { statut, notes_admin } = req.body;
         
-        const validStatuts = ['draft', 'en_attente', 'confirmee', 'en_cours', 'terminee', 'annulee', 'absent'];
+        const validStatuts = ['en_attente', 'confirmee', 'en_cours', 'terminee', 'annulee', 'no_show'];
         if (!validStatuts.includes(statut)) {
             return res.status(400).json({ message: 'Statut invalide' });
         }
@@ -184,22 +184,6 @@ router.post('/reservations', async (req, res) => {
     }
 });
 
-// Convert draft to confirmed reservation
-router.post('/reservations/convert-draft/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const reservationId = await ReservationModel.convertDraftToReservation(id);
-        const reservation = await ReservationModel.getReservationById(reservationId);
-        
-        res.json({
-            message: 'Brouillon converti en réservation confirmée',
-            reservation
-        });
-    } catch (error) {
-        console.error('Erreur lors de la conversion du brouillon:', error);
-        res.status(500).json({ message: 'Erreur interne du serveur' });
-    }
-});
 
 // Update reservation details (client info, service, etc.)
 router.put('/reservations/:id', async (req, res) => {
@@ -627,7 +611,6 @@ router.post('/telegram/daily-summary', requireRole('admin'), async (req, res) =>
             JOIN clients c ON r.client_id = c.id
             JOIN services s ON r.service_id = s.id
             WHERE r.date_reservation = ?
-            AND r.reservation_status != 'draft'
             AND r.statut != 'annulee'
             ORDER BY r.heure_debut
         `, [today]);

@@ -19,7 +19,7 @@ router.get('/', authenticateAdmin, dbCacheMiddleware.cacheStats(cacheService.TTL
         // Overview statistics
         const overviewQueries = [
             `SELECT COUNT(*) as total_clients FROM clients WHERE actif = TRUE`,
-            `SELECT COUNT(*) as total_reservations FROM reservations WHERE date_reservation >= '${startDateStr}' AND reservation_status != 'draft'`,
+            `SELECT COUNT(*) as total_reservations FROM reservations WHERE date_reservation >= '${startDateStr}'`,
             `SELECT SUM(prix_final) as total_revenue FROM reservations WHERE date_reservation >= '${startDateStr}' AND statut IN ('terminee', 'confirmee')`,
             `SELECT COUNT(*) as total_services FROM services WHERE actif = TRUE`
         ];
@@ -33,7 +33,7 @@ router.get('/', authenticateAdmin, dbCacheMiddleware.cacheStats(cacheService.TTL
         // 1. Financial Revenue Analysis - Actual vs Potential vs Lost
         const revenueAnalysisQuery = `
             SELECT 
-                -- Actual Revenue (completed + confirmed by admin)
+                -- Actual Revenue (completed + confirmed)
                 SUM(CASE WHEN statut IN ('terminee', 'confirmee') THEN prix_final ELSE 0 END) as revenue_completed,
                 COUNT(CASE WHEN statut IN ('terminee', 'confirmee') THEN 1 END) as bookings_completed,
                 
@@ -43,55 +43,25 @@ router.get('/', authenticateAdmin, dbCacheMiddleware.cacheStats(cacheService.TTL
                 
                 -- Lost Revenue (cancelled or no-show)
                 SUM(CASE WHEN statut IN ('annulee', 'no_show') THEN prix_final ELSE 0 END) as revenue_lost,
-                COUNT(CASE WHEN statut IN ('annulee', 'no_show') THEN 1 END) as bookings_lost,
-                
-                -- Manual Conversions (draft to confirmed - admin intervention)
-                COUNT(CASE WHEN statut != 'draft' AND reservation_status = 'confirmed' THEN 1 END) as admin_conversions,
-                SUM(CASE WHEN statut != 'draft' AND reservation_status = 'confirmed' THEN prix_final ELSE 0 END) as admin_conversion_value,
-                
-                -- Total Draft Impact (all drafts created)
-                (SELECT COUNT(*) FROM reservations 
-                 WHERE date_creation >= '${startDateStr}' 
-                 AND statut = 'draft') as total_drafts_created,
-                
-                -- Draft Conversion Rate
-                (SELECT COUNT(*) FROM reservations 
-                 WHERE date_creation >= '${startDateStr}' 
-                 AND statut != 'draft' AND reservation_status IN ('confirmed', 'reserved')) as drafts_converted_to_bookings
+                COUNT(CASE WHEN statut IN ('annulee', 'no_show') THEN 1 END) as bookings_lost
                  
             FROM reservations 
-            WHERE date_reservation >= '${startDateStr}' 
-                AND reservation_status != 'draft'
+            WHERE date_reservation >= '${startDateStr}'
         `;
 
-        // 2. Admin Intervention Impact Analysis
+        // 2. Reservation Success Analysis
         const adminInterventionQuery = `
             SELECT 
-                -- Reservations manually confirmed by admin
-                COUNT(CASE WHEN reservation_status = 'confirmed' AND statut != 'draft' THEN 1 END) as admin_touched_reservations,
-                AVG(CASE WHEN reservation_status = 'confirmed' THEN prix_final END) as avg_value_admin_handled,
+                -- Total reservations
+                COUNT(*) as total_reservations,
+                AVG(prix_final) as avg_reservation_value,
                 
-                -- Success rate of confirmed reservations
-                COUNT(CASE WHEN reservation_status = 'confirmed' AND statut IN ('terminee', 'confirmee') THEN 1 END) as admin_successful_completions,
-                COUNT(CASE WHEN reservation_status = 'confirmed' AND statut IN ('annulee', 'no_show') THEN 1 END) as admin_failed_conversions,
+                -- Success rate of reservations
+                COUNT(CASE WHEN statut IN ('terminee', 'confirmee') THEN 1 END) as successful_completions,
+                COUNT(CASE WHEN statut IN ('annulee', 'no_show') THEN 1 END) as failed_reservations,
                 
-                -- Draft system effectiveness
-                (SELECT COUNT(*) FROM reservations 
-                 WHERE statut = 'draft' 
-                 AND date_creation >= '${startDateStr}') as current_drafts,
-                
-                (SELECT COUNT(*) FROM reservations r1
-                 WHERE r1.date_creation >= '${startDateStr}'
-                 AND r1.statut != 'draft' 
-                 AND EXISTS (
-                     SELECT 1 FROM reservations r2 
-                     WHERE r2.client_telephone = r1.client_telephone 
-                     AND r2.statut = 'draft' 
-                     AND r2.date_creation < r1.date_creation
-                 )) as draft_converted_customers,
-                
-                -- Revenue from confirmed reservations (admin interventions)
-                SUM(CASE WHEN reservation_status = 'confirmed' AND statut IN ('terminee', 'confirmee') THEN prix_final ELSE 0 END) as revenue_rescued_by_admin
+                -- Revenue from completed reservations
+                SUM(CASE WHEN statut IN ('terminee', 'confirmee') THEN prix_final ELSE 0 END) as total_revenue
                 
             FROM reservations 
             WHERE date_reservation >= '${startDateStr}'
@@ -107,54 +77,20 @@ router.get('/', authenticateAdmin, dbCacheMiddleware.cacheStats(cacheService.TTL
                 -- Percentage of total bookings
                 (COUNT(*) * 100.0 / (
                     SELECT COUNT(*) FROM reservations 
-                    WHERE date_reservation >= '${startDateStr}' 
-                    AND reservation_status != 'draft'
+                    WHERE date_reservation >= '${startDateStr}'
                 )) as percentage_of_total,
                 -- Percentage of total potential revenue
                 (SUM(prix_final) * 100.0 / (
                     SELECT SUM(prix_final) FROM reservations 
-                    WHERE date_reservation >= '${startDateStr}' 
-                    AND reservation_status != 'draft'
+                    WHERE date_reservation >= '${startDateStr}'
                 )) as percentage_of_revenue
             FROM reservations 
-            WHERE date_reservation >= '${startDateStr}' 
-                AND reservation_status != 'draft'
+            WHERE date_reservation >= '${startDateStr}'
             GROUP BY statut
             ORDER BY total_value DESC
         `;
 
-        // 4. Draft System Performance Metrics
-        const draftSystemMetricsQuery = `
-            SELECT 
-                -- Total drafts created (shows lead generation)
-                COUNT(*) as total_drafts,
-                
-                -- Drafts that became confirmed bookings (based on phone number matching)
-                SUM(CASE WHEN converted_reservation.id IS NOT NULL THEN 1 ELSE 0 END) as drafts_converted,
-                
-                -- Average time from draft to conversion
-                AVG(CASE WHEN converted_reservation.id IS NOT NULL 
-                    THEN TIMESTAMPDIFF(HOUR, draft_res.date_creation, converted_reservation.date_creation) 
-                    END) as avg_conversion_time_hours,
-                
-                -- Total value of converted drafts
-                SUM(CASE WHEN converted_reservation.id IS NOT NULL 
-                    THEN converted_reservation.prix_final ELSE 0 END) as converted_draft_value,
-                
-                -- Conversion rate
-                (SUM(CASE WHEN converted_reservation.id IS NOT NULL THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as conversion_rate
-                
-            FROM reservations draft_res
-            LEFT JOIN reservations converted_reservation ON (
-                draft_res.client_telephone = converted_reservation.client_telephone
-                AND converted_reservation.statut != 'draft'
-                AND converted_reservation.reservation_status IN ('reserved', 'confirmed')
-                AND converted_reservation.date_creation > draft_res.date_creation
-                AND converted_reservation.date_creation <= DATE_ADD(draft_res.date_creation, INTERVAL 30 DAY)
-            )
-            WHERE draft_res.statut = 'draft'
-                AND draft_res.date_creation >= '${startDateStr}'
-        `;
+
 
         // Additional queries for comprehensive analytics
         const peakHoursQuery = `
@@ -162,8 +98,7 @@ router.get('/', authenticateAdmin, dbCacheMiddleware.cacheStats(cacheService.TTL
                 HOUR(STR_TO_DATE(heure_debut, '%H:%i:%s')) as hour,
                 COUNT(*) as bookings
             FROM reservations 
-            WHERE date_reservation >= '${startDateStr}' 
-                AND reservation_status != 'draft'
+            WHERE date_reservation >= '${startDateStr}'
             GROUP BY HOUR(STR_TO_DATE(heure_debut, '%H:%i:%s'))
             ORDER BY bookings DESC
         `;
@@ -172,7 +107,7 @@ router.get('/', authenticateAdmin, dbCacheMiddleware.cacheStats(cacheService.TTL
             SELECT 
                 statut,
                 COUNT(*) as count,
-                (COUNT(*) * 100.0 / (SELECT COUNT(*) FROM reservations WHERE date_reservation >= '${startDateStr}' AND reservation_status != 'draft')) as percentage
+                (COUNT(*) * 100.0 / (SELECT COUNT(*) FROM reservations WHERE date_reservation >= '${startDateStr}')) as percentage
             FROM reservations 
             WHERE date_reservation >= '${startDateStr}' 
                 AND statut IN ('annulee', 'no_show')
@@ -226,7 +161,7 @@ router.get('/', authenticateAdmin, dbCacheMiddleware.cacheStats(cacheService.TTL
             FROM services s
             LEFT JOIN reservations r ON s.id = r.service_id
             WHERE r.date_reservation >= '${startDateStr}'
-                AND r.reservation_status != 'draft'
+
             GROUP BY s.id, s.nom
             ORDER BY bookings DESC
             LIMIT 5
@@ -268,14 +203,13 @@ router.get('/', authenticateAdmin, dbCacheMiddleware.cacheStats(cacheService.TTL
 
         // Execute all queries
         const [
-            revenueAnalysis, adminIntervention, statusBreakdown, draftSystemMetrics,
+            revenueAnalysis, adminIntervention, statusBreakdown,
             peakHours, cancellationStats, avgSpend, revenueByService,
             clientAnalysis, popularServices, revenueTrend, monthlyComparison, clientGrowth
         ] = await Promise.all([
             executeQuery(revenueAnalysisQuery),
             executeQuery(adminInterventionQuery),
             executeQuery(statusBreakdownQuery),
-            executeQuery(draftSystemMetricsQuery),
             executeQuery(peakHoursQuery),
             executeQuery(cancellationStatsQuery),
             executeQuery(avgSpendQuery),
@@ -317,7 +251,7 @@ router.get('/', authenticateAdmin, dbCacheMiddleware.cacheStats(cacheService.TTL
                     avgSpendPerClient: avgSpend[0]?.avg_spend || 0
                 },
 
-                // === ENHANCED FINANCIAL TRACKING ===
+                // === FINANCIAL TRACKING ===
                 financialOverview: {
                     // Actual money earned
                     revenueCompleted: parseFloat(revenueAnalysis[0]?.revenue_completed || 0),
@@ -331,10 +265,6 @@ router.get('/', authenticateAdmin, dbCacheMiddleware.cacheStats(cacheService.TTL
                     revenueLost: parseFloat(revenueAnalysis[0]?.revenue_lost || 0),
                     bookingsLost: revenueAnalysis[0]?.bookings_lost || 0,
                     
-                    // Admin intervention value
-                    adminConversions: revenueAnalysis[0]?.admin_conversions || 0,
-                    adminConversionValue: parseFloat(revenueAnalysis[0]?.admin_conversion_value || 0),
-                    
                     // Total potential if everything was completed
                     totalPotentialRevenue: parseFloat(
                         (revenueAnalysis[0]?.revenue_completed || 0) + 
@@ -343,38 +273,22 @@ router.get('/', authenticateAdmin, dbCacheMiddleware.cacheStats(cacheService.TTL
                     )
                 },
 
-                // === ADMIN IMPACT TRACKING ===
-                adminImpact: {
-                    totalInterventions: adminIntervention[0]?.admin_touched_reservations || 0,
-                    avgValueAdminHandled: parseFloat(adminIntervention[0]?.avg_value_admin_handled || 0),
-                    successfulCompletions: adminIntervention[0]?.admin_successful_completions || 0,
-                    failedConversions: adminIntervention[0]?.admin_failed_conversions || 0,
-                    revenueRescuedByAdmin: parseFloat(adminIntervention[0]?.revenue_rescued_by_admin || 0),
+                // === RESERVATION SUCCESS TRACKING ===
+                reservationSuccess: {
+                    totalReservations: adminIntervention[0]?.total_reservations || 0,
+                    avgReservationValue: parseFloat(adminIntervention[0]?.avg_reservation_value || 0),
+                    successfulCompletions: adminIntervention[0]?.successful_completions || 0,
+                    failedReservations: adminIntervention[0]?.failed_reservations || 0,
+                    totalRevenue: parseFloat(adminIntervention[0]?.total_revenue || 0),
                     
-                    // Success rate of admin interventions
-                    adminSuccessRate: adminIntervention[0]?.admin_touched_reservations > 0 
-                        ? ((adminIntervention[0]?.admin_successful_completions || 0) / 
-                           adminIntervention[0]?.admin_touched_reservations * 100).toFixed(1)
+                    // Success rate of reservations
+                    successRate: adminIntervention[0]?.total_reservations > 0 
+                        ? ((adminIntervention[0]?.successful_completions || 0) / 
+                           adminIntervention[0]?.total_reservations * 100).toFixed(1)
                         : 0
                 },
 
-                // === DRAFT SYSTEM PERFORMANCE ===
-                draftSystemPerformance: {
-                    totalDraftsCreated: draftSystemMetrics[0]?.total_drafts || 0,
-                    draftsConverted: draftSystemMetrics[0]?.drafts_converted || 0,
-                    conversionRate: parseFloat(draftSystemMetrics[0]?.conversion_rate || 0),
-                    avgConversionTimeHours: parseFloat(draftSystemMetrics[0]?.avg_conversion_time_hours || 0),
-                    convertedDraftValue: parseFloat(draftSystemMetrics[0]?.converted_draft_value || 0),
-                    currentDrafts: adminIntervention[0]?.current_drafts || 0,
-                    
-                    // How much revenue was generated from draft leads
-                    draftGeneratedRevenue: parseFloat(draftSystemMetrics[0]?.converted_draft_value || 0),
-                    
-                    // ROI of draft system (assuming minimal cost)
-                    draftROI: draftSystemMetrics[0]?.total_drafts > 0 
-                        ? (parseFloat(draftSystemMetrics[0]?.converted_draft_value || 0) / draftSystemMetrics[0]?.total_drafts).toFixed(2)
-                        : 0
-                },
+
 
                 // === STATUS BREAKDOWN WITH FINANCIAL IMPACT ===
                 statusBreakdown: statusBreakdown.map(status => ({
@@ -510,66 +424,7 @@ router.get('/', authenticateAdmin, dbCacheMiddleware.cacheStats(cacheService.TTL
     }
 });
 
-// Draft Performance Statistics 
-router.get('/draft-performance', authenticateAdmin, async (req, res) => {
-    try {
-        console.log('🎯 Draft Performance endpoint started');
-        
-        const draftMetricsQuery = `
-            SELECT 
-                COUNT(CASE WHEN reservation_status = 'draft' THEN 1 END) as total_drafts_created,
-                COUNT(CASE WHEN reservation_status = 'draft' AND statut IN ('confirmee', 'terminee') THEN 1 END) as drafts_converted,
-                COUNT(CASE WHEN reservation_status = 'draft' AND statut = 'draft' THEN 1 END) as drafts_pending,
-                COUNT(CASE WHEN reservation_status = 'reserved' THEN 1 END) as direct_bookings,
-                SUM(CASE WHEN reservation_status = 'draft' AND statut = 'terminee' THEN prix_final ELSE 0 END) as revenue_from_conversions,
-                SUM(CASE WHEN reservation_status = 'reserved' AND statut = 'terminee' THEN prix_final ELSE 0 END) as revenue_from_direct
-            FROM reservations
-        `;
-        
-        console.log('📊 About to execute query');
-        const result = await executeQuery(draftMetricsQuery);
-        const data = result[0] || {
-            total_drafts_created: 0,
-            drafts_converted: 0, 
-            drafts_pending: 0,
-            direct_bookings: 0,
-            revenue_from_conversions: 0,
-            revenue_from_direct: 0
-        };
-        
-        const conversionRate = data.total_drafts_created > 0 ? 
-            (data.drafts_converted / data.total_drafts_created * 100) : 0;
-        
-        console.log('💰 DRAFT METRICS DATA:', data);
 
-        res.json({
-            success: true,
-            data: {
-                overview: {
-                    totalDraftsCreated: data.total_drafts_created,
-                    draftsConverted: data.drafts_converted,
-                    draftsPending: data.drafts_pending,
-                    directBookings: data.direct_bookings,
-                    conversionRate: conversionRate.toFixed(1),
-                    revenueFromConversions: data.revenue_from_conversions || 0,
-                    revenueFromDirect: data.revenue_from_direct || 0,
-                    avgConvertedValue: data.drafts_converted > 0 ? (data.revenue_from_conversions / data.drafts_converted) : 0,
-                    avgDirectValue: data.direct_bookings > 0 ? (data.revenue_from_direct / data.direct_bookings) : 0
-                },
-                statusBreakdown: [],
-                trends: []
-            }
-        });
-
-    } catch (error) {
-        console.error('❌ Draft Performance Error:', error);
-        res.status(500).json({ 
-            success: false, 
-            message: 'Erreur lors du chargement de la performance des brouillons',
-            error: error.message 
-        });
-    }
-});
 
 // Financial statistics endpoint
 router.get('/financial', authenticateAdmin, async (req, res) => {
@@ -590,7 +445,7 @@ router.get('/financial', authenticateAdmin, async (req, res) => {
                 COUNT(CASE WHEN statut IN ('annulee', 'no_show') THEN 1 END) as lost_bookings
             FROM reservations 
             WHERE date_reservation >= '${startDateStr}'
-                AND reservation_status != 'draft'
+
         `;
 
         const result = await executeQuery(financialQuery);
