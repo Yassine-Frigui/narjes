@@ -8,7 +8,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'https://waad-nails.onrender.com', // Local backend server
+        target: 'https://narjes.onrender.com', // Local backend server
         changeOrigin: true,
         secure: false,
       }

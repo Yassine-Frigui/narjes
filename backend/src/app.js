@@ -85,7 +85,7 @@ app.use(cors({
         
         const allowedOrigins = [
             process.env.FRONTEND_URL || 'http://localhost:3000',
-            'https://waad-nails.onrender.com',
+            'https://narjes.onrender.com',
             'https://waad-nails.netlify.app',
             'https://waad-nails.netlify.app/',
             'http://localhost:3000',
