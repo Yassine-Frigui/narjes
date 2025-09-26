@@ -50,18 +50,12 @@ const authLimiter = rateLimit({
     legacyHeaders: false,
 });
 
-// Import des routes
+// Import des routes - NBrow Studio (simplified)
 const authRoutes = require('./routes/auth');
 const serviceRoutes = require('./routes/services');
 const reservationRoutes = require('./routes/reservations');
-const inventaireRoutes = require('./routes/inventaire');
 const adminRoutes = require('./routes/admin');
-const membershipRoutes = require('./routes/memberships');
 const statisticsRoutes = require('./routes/statistics');
-const performanceRoutes = require('./routes/performance');
-const influencerRoutes = require('./routes/influencer');
-const expensesRoutes = require('./routes/expenses');
-const revenueRoutes = require('./routes/revenue');
 
 // Import de la configuration de base de données
 const { testConnection } = require('../config/database');
@@ -156,34 +150,18 @@ app.use((req, res, next) => {
     next();
 });
 
-// Routes principales
+// Routes principales - NBrow Studio (simplified)
 app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/reservations', reservationRoutes);
-app.use('/api/inventaire', inventaireRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/admin/statistics', statisticsRoutes);
-console.log('📊 Statistics routes mounted at /api/admin/statistics');
-app.use('/api/memberships', membershipRoutes);
-
-// Influencer tracking routes (public redirect + admin management)
-app.use('/', influencerRoutes); // For /r/:code redirect
-app.use('/', influencerRoutes); // For /api/admin/influencer endpoints
-console.log('🔗 Influencer tracking routes mounted');
-
-// Expenses and revenue routes
-app.use('/api/admin/expenses', expensesRoutes);
-app.use('/api/admin/revenue', revenueRoutes);
-console.log('💰 Expenses and revenue routes mounted');
-
-// Performance monitoring routes
-app.use('/api/admin/performance', performanceRoutes);
-console.log('📊 Performance monitoring routes mounted');
+console.log('📊 NBrow Studio routes mounted - auth, services, reservations, admin, statistics');
 
 // Route de test
 app.get('/api/test', (req, res) => {
     res.json({ 
-        message: 'ZenShe Spa API is working correctly!',
+        message: 'NBrow Studio by Narjes API is working correctly!',
         timestamp: new Date().toISOString(),
         environment: process.env.NODE_ENV 
     });

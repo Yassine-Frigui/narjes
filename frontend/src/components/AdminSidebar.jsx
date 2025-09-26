@@ -62,24 +62,9 @@ const AdminSidebar = () => {
       label: 'Services'
     },
     {
-      path: '/admin/inventaire',
-      icon: <FaBoxes />,
-      label: 'Inventaire'
-    },
-    {
       path: '/admin/statistics',
       icon: <FaChartLine />,
       label: 'Statistiques'
-    },
-    {
-      path: '/admin/costs',
-      icon: <FaUser />,
-      label: 'Coûts & Marketing'
-    },
-    {
-      path: '/admin/settings',
-      icon: <FaCog />,
-      label: 'Paramètres'
     }
   ];
 

@@ -2,16 +2,13 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 
-// Import des pages admin
+// Import des pages admin - NBrow Studio (eyebrow services only)
 import AdminLogin from './pages/admin/AdminLogin'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminReservations from './pages/admin/AdminReservations'
 import AdminClients from './pages/admin/AdminClients'
 import AdminServices from './pages/admin/AdminServices'
-import AdminInventaire from './pages/admin/AdminInventaire'
-import AdminSettings from './pages/admin/AdminSettings'
 import AdminStatistics from './pages/admin/AdminStatistics'
-import AdminCosts from './pages/admin/AdminCosts'
 
 // Import des composants
 import AdminLayout from './components/layouts/AdminLayout'
@@ -117,17 +114,6 @@ function App() {
                     <AdminServices />
                   </motion.div>
                 } />
-                <Route path="inventaire" element={
-                  <motion.div
-                    initial="initial"
-                    animate="in"
-                    exit="out"
-                    variants={pageVariants}
-                    transition={pageTransition}
-                  >
-                    <AdminInventaire />
-                  </motion.div>
-                } />
                 <Route path="statistics" element={
                   <motion.div
                     initial="initial"
@@ -137,28 +123,6 @@ function App() {
                     transition={pageTransition}
                   >
                     <AdminStatistics />
-                  </motion.div>
-                } />
-                <Route path="costs" element={
-                  <motion.div
-                    initial="initial"
-                    animate="in"
-                    exit="out"
-                    variants={pageVariants}
-                    transition={pageTransition}
-                  >
-                    <AdminCosts />
-                  </motion.div>
-                } />
-                <Route path="settings" element={
-                  <motion.div
-                    initial="initial"
-                    animate="in"
-                    exit="out"
-                    variants={pageVariants}
-                    transition={pageTransition}
-                  >
-                    <AdminSettings />
                   </motion.div>
                 } />
               </Route>
