@@ -79,7 +79,7 @@ const AdminLogin = () => {
                     </div>
                   </div>
                   <h3 className="fw-bold text-green mb-2">Administration</h3>
-                  <p className="text-accent-green mb-0">Waad</p>
+                  <p className="text-accent-green mb-0">NBrow Studio by Narjes</p>
                 </motion.div>
               </div>
 

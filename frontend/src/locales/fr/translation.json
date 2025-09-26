@@ -128,24 +128,24 @@
   },
   "home": {
     "hero": {
-      "title": "Bienvenue chez Beauty Nails - Chez Waad",
-      "subtitle": "Découvrez des services de manucure premium et des traitements de beauté dans notre salon luxueux. Des manucures classiques aux designs artistiques, nous créons de beaux ongles qui expriment votre style unique.",
+      "title": "Bienvenue chez NBrow Studio by Narjes",
+      "subtitle": "Découvrez des services de sourcils premium dans notre studio spécialisé. Du microblading au microshading, nous sublimons vos sourcils pour révéler votre beauté naturelle.",
       "bookNow": "Réserver maintenant",
       "discoverServices": "Nos Services",
       "sanctuary_badge": "Sanctuaire premium des ongles"
     },
     "featuredServices": "Nos Services les Plus Populaires",
-    "featuredServicesDesc": "Découvrez pourquoi nos clients adorent ces services d'ongles",
+    "featuredServicesDesc": "Découvrez pourquoi nos clients adorent nos services de sourcils",
     "viewAllServices": "Voir Tous Nos Services",
     "newServices": {
       "title": "Nouvelles Tendances Ongles",
-      "description": "Découvrez nos dernières innovations en nail art et services",
+      "description": "Découvrez nos dernières techniques en microblading et soins des sourcils",
       "badge": "Nouveau",
       "tryButton": "Essayer"
     },
     "gallery": {
       "title": "Notre Sanctuaire Beauté",
-      "description": "Découvrez nos espaces élégants dédiés aux services des ongles et à la beauté"
+      "description": "Découvrez notre studio élégant dédié aux soins des sourcils et à la beauté"
     },
     "testimonials": {
       "title": "Ce Que Disent Nos Clients",
@@ -159,7 +159,7 @@
   },
   "services": {
     "title": "Nos Services",
-    "subtitle": "Services de manucure premium et traitements de beauté",
+    "subtitle": "Services de sourcils premium et traitements de beauté",
     "allServices": "Tous les services",
     "categories": "Catégories",
     "duration": "Durée",
@@ -171,7 +171,7 @@
     "noServicesFound": "Aucun service trouvé",
     "tryDifferentCategory": "Essayez de sélectionner une catégorie différente",
     "cta": {
-      "title": "Des questions sur nos services d'ongles ?",
+      "title": "Des questions sur nos services de sourcils ?",
       "description": "Nos nail artists expérimentées sont là pour vous aider à obtenir de beaux ongles"
     }
   },
@@ -245,21 +245,21 @@
   },
   "about": {
     "hero": {
-      "title": "À Propos de Beauty Nails - Chez Waad",
-      "subtitle": "Votre destination pour les services premium des ongles et le design artistique"
+      "title": "À Propos de NBrow Studio by Narjes",
+      "subtitle": "Votre destination spécialisée pour les soins premium des sourcils"
     },
     "mission": {
       "title": "Notre Mission",
-      "description": "Chez Beauty Nails - Chez Waad, nous créons un espace luxueux où chaque cliente peut exprimer son style unique grâce à de beaux nail art et des services professionnels des ongles."
+      "description": "Chez NBrow Studio by Narjes, nous créons un environnement dédié où chaque cliente peut sublimer ses sourcils grâce à nos techniques expertes de microblading, microshading et soins personnalisés."
     },
     "values": {
       "feminine_wellness": {
-        "title": "Services de Beauté",
-        "description": "Nous nous spécialisons dans les services de manucure, pédicure et traitements de beauté pour sublimer votre éclat naturel."
+        "title": "Expertise Sourcils",
+        "description": "Nous nous spécialisons dans le microblading, microshading et tous les soins des sourcils pour révéler la beauté de votre regard."
       },
       "holistic_approach": {
-        "title": "Approche Complète",
-        "description": "Nos services allient techniques traditionnelles et innovations modernes pour des services de beauté complets et personnalisés."
+        "title": "Techniques Premium",
+        "description": "Nos méthodes allient l'art traditionnel du sourcil et les innovations modernes pour des résultats naturels et durables."
       },
       "excellence_discretion": {
         "title": "Excellence & Élégance",
@@ -268,11 +268,11 @@
     },
     "story": {
       "title": "Notre Histoire",
-      "description": "Beauty Chez Waad est né de la passion de créer un espace dédié exclusivement à la beauté et aux services des ongles, où l'art traditionnel rencontre l'innovation moderne."
+      "description": "NBrow Studio by Narjes est né de la passion de créer un studio spécialisé dans l'art des sourcils, où techniques traditionnelles et innovations modernes se rencontrent pour sublimer votre regard."
     },
     "team": {
       "title": "Notre Équipe",
-      "description": "Des esthéticiennes et nail artists formées et passionnées, dédiées à votre beauté et à votre satisfaction."
+      "description": "Des spécialistes expertes en microblading et soins des sourcils, dédiées à révéler la beauté de votre regard."
     }
   },
   "profile": {
