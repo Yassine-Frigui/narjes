@@ -44,12 +44,9 @@ const createPool = (config) => {
         waitForConnections: true,
         connectionLimit: 10,
         queueLimit: 0,
-        acquireTimeout: 60000,
-        timeout: 60000,
         idleTimeout: 300000,
         enableKeepAlive: true,
         keepAliveInitialDelay: 0,
-        reconnect: true,
         multipleStatements: false
     });
 };

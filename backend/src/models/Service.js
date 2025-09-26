@@ -288,11 +288,10 @@ class ServiceModel {
                 s.duree,
                 s.image_url,
                 s.service_type,
-                c.nom as categorie,
-                c.couleur_theme,
+                'Sourcils' as categorie,
+                '#8B4A6B' as couleur_theme,
                 parent.nom as parent_nom
             FROM services s
-            LEFT JOIN categories_services c ON s.categorie_id = c.id
             LEFT JOIN services parent ON s.parent_service_id = parent.id
             WHERE s.actif = TRUE AND s.populaire = TRUE
             ORDER BY s.ordre_affichage, s.nom
@@ -312,11 +311,10 @@ class ServiceModel {
                 s.duree,
                 s.image_url,
                 s.service_type,
-                c.nom as categorie,
-                c.couleur_theme,
+                'Sourcils' as categorie,
+                '#8B4A6B' as couleur_theme,
                 parent.nom as parent_nom
             FROM services s
-            LEFT JOIN categories_services c ON s.categorie_id = c.id
             LEFT JOIN services parent ON s.parent_service_id = parent.id
             WHERE s.actif = TRUE AND s.nouveau = TRUE
             ORDER BY s.date_creation DESC
@@ -329,15 +327,10 @@ class ServiceModel {
     // MULTILINGUAL TRANSLATION METHODS
     // ============================================================================
 
-    // Get categories for form dropdowns
+    // Get categories for form dropdowns (NBrow Studio - no categories needed)
     static async getCategories() {
-        const query = `
-            SELECT id, nom, couleur_theme, ordre_affichage
-            FROM categories_services 
-            WHERE actif = TRUE 
-            ORDER BY ordre_affichage, nom
-        `;
-        return await executeQuery(query);
+        // NBrow Studio doesn't use categories - all services are eyebrow services
+        return [];
     }
 
     // Get service with all translations
@@ -358,10 +351,9 @@ class ServiceModel {
                 s.populaire,
                 s.nouveau,
                 s.ordre_affichage,
-                c.nom as categorie_nom,
-                c.couleur_theme
+                'Sourcils' as categorie_nom,
+                '#8B4A6B' as couleur_theme
             FROM services s
-            LEFT JOIN categories_services c ON s.categorie_id = c.id
             WHERE s.id = ?
         `;
         
@@ -576,22 +568,23 @@ class ServiceModel {
     // LEGACY COMPATIBILITY METHODS
     // ============================================================================
 
-    // For backward compatibility - get services grouped by category
+    // For backward compatibility - get services grouped by category (NBrow Studio - no categories)
     static async getServicesGroupedByCategory() {
-        const categories = await executeQuery(`
-            SELECT * FROM categories_services 
-            WHERE actif = TRUE 
-            ORDER BY ordre_affichage
-        `);
+        // NBrow Studio doesn't use categories - return all services under one "Sourcils" category
+        const category = {
+            id: 1,
+            nom: 'Sourcils',
+            couleur_theme: '#8B4A6B',
+            ordre_affichage: 1
+        };
 
         const result = [];
-        for (const category of categories) {
-            const services = await this.getServicesByCategory(category.id);
-            result.push({
-                ...category,
-                services
-            });
-        }
+        // Get all services (NBrow Studio - all are eyebrow services)
+        const services = await this.getAllServices();
+        result.push({
+            ...category,
+            services
+        });
 
         return result;
     }

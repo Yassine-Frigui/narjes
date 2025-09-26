@@ -56,6 +56,7 @@ const serviceRoutes = require('./routes/services');
 const reservationRoutes = require('./routes/reservations');
 const adminRoutes = require('./routes/admin');
 const statisticsRoutes = require('./routes/statistics');
+const publicRoutes = require('./routes/public');
 
 // Import de la configuration de base de données
 const { testConnection } = require('../config/database');
@@ -63,6 +64,11 @@ const performanceOptimizations = require('./middleware/performanceOptimizations'
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Trust proxy for rate limiting when behind reverse proxy (like Render, Heroku, etc.)
+if (process.env.NODE_ENV === 'production') {
+    app.set('trust proxy', 1);
+}
 
 // Middleware
 // Performance middleware should be applied early
@@ -80,8 +86,8 @@ app.use(cors({
         const allowedOrigins = [
             process.env.FRONTEND_URL || 'http://localhost:3000',
             'https://narjes.onrender.com',
-            'https://waad-nails.netlify.app',
-            'https://waad-nails.netlify.app/',
+            'https://nbrowstudionarjes.netlify.app',
+            'https://nbrowstudionarjes.netlify.app/',
             'http://localhost:3000',
             'http://127.0.0.1:3000'
         ];
@@ -156,7 +162,8 @@ app.use('/api/services', serviceRoutes);
 app.use('/api/reservations', reservationRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/admin/statistics', statisticsRoutes);
-console.log('📊 NBrow Studio routes mounted - auth, services, reservations, admin, statistics');
+app.use('/api/public/services', publicRoutes);
+console.log('📊 NBrow Studio routes mounted - auth, services, reservations, admin, statistics, public');
 
 // Route de test
 app.get('/api/test', (req, res) => {

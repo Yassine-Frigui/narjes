@@ -44,7 +44,7 @@ const performanceMiddleware = {
                 fontSrc: ["'self'", "https://fonts.gstatic.com"],
                 imgSrc: ["'self'", "data:", "https:", "blob:"],
                 scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-                connectSrc: ["'self'", "https://narjes.onrender.com", "https://waad-nails.netlify.app"]
+                connectSrc: ["'self'", "https://narjes.onrender.com", "https://nbrowstudionarjes.netlify.app"]
             }
         },
         

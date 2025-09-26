@@ -215,13 +215,7 @@ const performanceOptimizations = {
                 cacheService.TTL.LONG
             );
             
-            // Preload service categories
-            await this.cachedQuery(
-                'SELECT id, nom, couleur_theme FROM categories_services WHERE actif = 1',
-                [],
-                'service-categories',
-                cacheService.TTL.VERY_LONG
-            );
+            // NBrow Studio - no categories needed (all services are eyebrow services)
             
             // Preload today's reservations count
             await this.cachedQuery(
