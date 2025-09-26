@@ -28,12 +28,10 @@ class ServiceModel {
                 s.populaire,
                 s.nouveau,
                 s.ordre_affichage,
-                c.nom as categorie,
-                c.couleur_theme,
-                c.id as categorie_id,
+                'Sourcils' as categorie,
+                '#8B4A6B' as couleur_theme,
                 parent.nom as parent_nom
             FROM services s
-            LEFT JOIN categories_services c ON s.categorie_id = c.id
             LEFT JOIN services parent ON s.parent_service_id = parent.id
             WHERE 1=1
         `;
@@ -59,11 +57,10 @@ class ServiceModel {
         const query = `
             SELECT 
                 s.*,
-                c.nom as categorie,
-                c.couleur_theme,
+                'Sourcils' as categorie,
+                '#8B4A6B' as couleur_theme,
                 parent.nom as parent_nom
             FROM services s
-            LEFT JOIN categories_services c ON s.categorie_id = c.id
             LEFT JOIN services parent ON s.parent_service_id = parent.id
             WHERE s.id = ? AND s.actif = TRUE
         `;
@@ -71,7 +68,7 @@ class ServiceModel {
         return result[0];
     }
 
-    // Create new service
+    // Create new service (NBrow Studio - no categories)
     static async createService(serviceData) {
         const {
             nom,
@@ -79,7 +76,6 @@ class ServiceModel {
             description_detaillee,
             service_type = 'base',
             parent_service_id,
-            categorie_id,
             prix,
             duree,
             image_url,
@@ -96,14 +92,14 @@ class ServiceModel {
 
         const query = `
             INSERT INTO services 
-            (nom, description, description_detaillee, service_type, parent_service_id, categorie_id,
+            (nom, description, description_detaillee, service_type, parent_service_id,
              prix, duree, image_url, inclus, contre_indications, conseils_apres_soin,
              nombre_sessions, prix_par_session, validite_jours, populaire, nouveau, ordre_affichage)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
         
         const result = await executeQuery(query, [
-            nom, description, description_detaillee, service_type, parent_service_id || null, categorie_id,
+            nom, description, description_detaillee, service_type, parent_service_id || null,
             prix, duree, image_url, inclus, contre_indications, conseils_apres_soin,
             nombre_sessions || null, prix_par_session || null, validite_jours || null,
             populaire, nouveau, ordre_affichage

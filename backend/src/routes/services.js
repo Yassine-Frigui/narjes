@@ -45,11 +45,11 @@ router.post('/', requireRole(['super_admin', 'admin']), dbCacheMiddleware.invali
     try {
         const serviceData = req.body;
         
-        // Validation for required fields
-        const { nom, prix, duree, categorie_id, service_type = 'base' } = serviceData;
-        if (!nom || !prix || !duree || !categorie_id) {
+        // Validation for required fields (NBrow Studio - no categories)
+        const { nom, prix, duree, service_type = 'base' } = serviceData;
+        if (!nom || !prix || !duree) {
             return res.status(400).json({ 
-                message: 'Name, price, duration and category are required' 
+                message: 'Name, price, and duration are required' 
             });
         }
 
@@ -332,11 +332,11 @@ router.post('/with-translations', requireRole(['super_admin', 'admin']), async (
     try {
         const serviceData = req.body;
         
-        // Validation for required fields
-        const { translations, prix, duree, categorie_id } = serviceData;
-        if (!translations?.fr?.nom || !prix || !duree || !categorie_id) {
+        // Validation for required fields (NBrow Studio - French only, no categories)
+        const { translations, prix, duree } = serviceData;
+        if (!translations?.fr?.nom || !prix || !duree) {
             return res.status(400).json({ 
-                message: 'French name, price, duration and category are required' 
+                message: 'French name, price, and duration are required' 
             });
         }
 

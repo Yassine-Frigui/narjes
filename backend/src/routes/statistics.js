@@ -191,16 +191,15 @@ router.get('/', authenticateAdmin, dbCacheMiddleware.cacheStats(cacheService.TTL
         const revenueByServiceQuery = `
             SELECT 
                 s.nom as service_name,
-                cs.nom as category,
+                'Sourcils' as category,
                 COUNT(r.id) as bookings,
                 SUM(r.prix_final) as revenue,
                 AVG(r.prix_final) as avg_price
             FROM services s
-            LEFT JOIN categories_services cs ON s.categorie_id = cs.id
             LEFT JOIN reservations r ON s.id = r.service_id
             WHERE r.date_reservation >= '${startDateStr}'
                 AND r.statut IN ('terminee', 'confirmee')
-            GROUP BY s.id, s.nom, cs.nom
+            GROUP BY s.id, s.nom
             ORDER BY revenue DESC
         `;
 
